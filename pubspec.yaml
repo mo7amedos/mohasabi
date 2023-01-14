@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
+  ionicons: ^0.2.1
 
 
 
@@ -81,6 +82,8 @@ flutter:
   assets:
    - assets/images/icon.png
    - assets/images/splash.png
+   - assets/images/google.png
+   - assets/images/facebook.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
