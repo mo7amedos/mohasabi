@@ -1,6 +1,10 @@
+import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mohasabi/Auth/login.dart';
 import 'package:mohasabi/config/config.dart';
+
+import 'info.dart';
 
 class Home extends StatefulWidget {
 
@@ -9,7 +13,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String shipname ="اختار الشركة";
+  int _selectedIndex = 0;
+   Widget _selectedWidget;
+  void onPressed(index) {
+    setState(() {
+      _selectedIndex = index;
+      if (index == 0) {
+        _selectedWidget = Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  Login()),
+        ) as Widget;
+      }else if (index == 1) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  Info()),
+        );
+      }else if (index == 2) {
+        _selectedWidget = Home();
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -20,6 +43,19 @@ class _HomeState extends State<Home> {
               initialIndex: 1,
               length: 2,
               child: Scaffold(
+                bottomNavigationBar: DiamondBottomNavigation(
+                  selectedColor: AppColors.LightGold,
+                  unselectedColor: AppColors.Black,
+                  itemIcons: const [
+                    Icons.model_training_rounded,
+                    Icons.info_rounded,
+
+                  ],
+                  selectedLightColor: AppColors.LightGold,
+                  centerIcon: Icons.info_rounded,
+                  selectedIndex: _selectedIndex,
+                  onItemPressed: onPressed,
+                ),
                 appBar: AppBar(
                   backgroundColor: AppColors.White,
                   title: Text(Names.AppName ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
@@ -89,7 +125,6 @@ class _HomeState extends State<Home> {
 
                                   ],
                                   onChanged: (value){ //get value when changed
-                                    shipname =value;
                                     print("You have selected $value");
                                   },
 
@@ -216,6 +251,7 @@ class _HomeState extends State<Home> {
 
                       ],),
                     ),
+                    //افراد
                     SingleChildScrollView(
                       child: Column(
                         children: [
