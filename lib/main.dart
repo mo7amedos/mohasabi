@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mohasabi/Auth/login.dart';
-import 'package:mohasabi/config/app_colors.dart';
+import 'package:mohasabi/config/config.dart';
 
 void main() {
   runApp(const MyApp());

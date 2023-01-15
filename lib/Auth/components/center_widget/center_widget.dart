@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mohasabi/config/app_colors.dart';
+import 'package:mohasabi/config/config.dart';
 
 import 'center_widget_clipper.dart';
 import 'center_widget_painter.dart';

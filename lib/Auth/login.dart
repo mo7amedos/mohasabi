@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../config/app_colors.dart';
+import '../config/config.dart';
 import 'components/center_widget/center_widget.dart';
 import 'components/login_content.dart';
 

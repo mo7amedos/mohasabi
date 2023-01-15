@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:mohasabi/home.dart';
 
 import '../utils/constants.dart';
 import '../utils/helper_functions.dart';
@@ -21,6 +22,7 @@ class LoginContent extends StatefulWidget {
 
 class _LoginContentState extends State<LoginContent>
     with TickerProviderStateMixin {
+
    List<Widget> createAccountContent;
    List<Widget> loginContent;
 
@@ -58,7 +60,12 @@ class _LoginContentState extends State<LoginContent>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  Home()),
+          );
+        },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: const StadiumBorder(),
@@ -91,7 +98,7 @@ class _LoginContentState extends State<LoginContent>
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Text(
-              'or',
+              'او',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -129,7 +136,7 @@ class _LoginContentState extends State<LoginContent>
       child: TextButton(
         onPressed: () {},
         child: const Text(
-          'Forgot Password?',
+          'هل نسيت كلمة المرور',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -143,18 +150,18 @@ class _LoginContentState extends State<LoginContent>
   @override
   void initState() {
     createAccountContent = [
-      inputField('Username', Ionicons.person_outline),
-      inputField('Email', Ionicons.mail_outline),
-      inputField('Password', Ionicons.lock_closed_outline),
-      loginButton('Sign Up'),
+      inputField('اسم المستخدم', Ionicons.person_outline),
+      inputField('البريد الالكتروني', Ionicons.mail_outline),
+      inputField('كلمه المرور', Ionicons.lock_closed_outline),
+      loginButton('انشاء حساب'),
       orDivider(),
       logos(),
     ];
 
     loginContent = [
-      inputField('Email / Username', Ionicons.mail_outline),
-      inputField('Password', Ionicons.lock_closed_outline),
-      loginButton('Log In'),
+      inputField('البريد الالكتروني / اسم المستخدم', Ionicons.mail_outline),
+      inputField('كلمه السر', Ionicons.lock_closed_outline),
+      loginButton('تسجيل دخول'),
       forgotPassword(),
     ];
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mohasabi/config/app_colors.dart';
+import 'package:mohasabi/config/config.dart';
 
 
 import '../utils/helper_functions.dart';
@@ -31,8 +31,8 @@ class _TopTextState extends State<TopText> {
       animation: ChangeScreenAnimation.topTextAnimation,
       child: Text(
         ChangeScreenAnimation.currentScreen == Screens.createAccount
-            ? 'Create\nAccount'
-            : 'Welcome\nBack',
+            ? 'انشاء\nحساب'
+            : 'مرحبا \nبعودتك',
         style: const TextStyle(
         color: AppColors.White,
           fontSize: 40,
