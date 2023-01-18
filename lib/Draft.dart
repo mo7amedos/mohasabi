@@ -1,7 +1,7 @@
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mohasabi/myprofile.dart';
+import 'package:flutter/services.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
@@ -9,28 +9,31 @@ import 'Auth/login.dart';
 import 'NavBar.dart';
 import 'config/config.dart';
 import 'home.dart';
+import 'info.dart';
+import 'myprofile.dart';
 
-class Info extends StatefulWidget {
+class Draft extends StatefulWidget {
 
   @override
-  State<Info> createState() => _InfoState();
+  State<Draft> createState() => _DraftState();
 }
 
-class _InfoState extends State<Info>{
+class _DraftState extends State<Draft>{
   void onPressed(index) {
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Info()),
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
         ) as Widget;
       } else if (index == 1) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),);
       }//in middle
       else if (index == 2) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Info()),);
       }else if (index == 3) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
-      } else if (index == 4) {
+      }
+      else if (index == 4) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile()),);
       }
     });
@@ -54,14 +57,14 @@ class _InfoState extends State<Info>{
                   selectedColor: AppColors.LightGold,
                   unselectedColor: AppColors.Black,
                   itemIcons: const [
-                    Icons.info_rounded,
+                    Icons.home_rounded,
                     Icons.model_training_rounded,
                     Icons.request_quote_rounded,
                     Icons.account_circle_rounded,
 
                   ],
                   selectedLightColor: AppColors.LightGold,
-                  centerIcon: Icons.home_rounded,
+                  centerIcon: Icons.info_rounded,
                   selectedIndex: _selectedIndex,
                   onItemPressed: onPressed,
                 ),
@@ -75,7 +78,6 @@ class _InfoState extends State<Info>{
                   child: Column(
                     children: [
                       SizedBox(height: 40,),
-                      Text("معلومات عن الشركة",style: TextStyle(fontSize: 50),)
 
                     ],
                   ),
