@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/config/config.dart';
+import 'package:mohasabi/home.dart';
 import 'package:mohasabi/myprofile.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
@@ -36,6 +37,11 @@ class NavBar extends StatelessWidget {
                   image: NetworkImage(
                       'https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')),
             ),
+          ),
+          ListTile(
+            leading: Icon(Icons.home_rounded,color: AppColors.LightGold),
+            title: Text('الصفحة الرئيسيه'),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),),
           ),
           ListTile(
             leading: Icon(Icons.account_circle_rounded,color: AppColors.LightGold),

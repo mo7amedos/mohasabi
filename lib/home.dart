@@ -6,6 +6,7 @@ import 'package:mohasabi/Auth/login.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/myprofile.dart';
 import 'package:mohasabi/requests.dart';
+import 'package:mohasabi/subservices.dart';
 import 'package:mohasabi/training.dart';
 
 
@@ -47,22 +48,23 @@ class _HomeState extends State<Home> {
         //the return value will be from "Yes" or "No" options
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Exit App'),
-          content: Text('Do you want to exit an App?'),
+          title: Text('الخروج',textDirection: TextDirection.rtl),
+          content: Text('هل تريد الخروج من التطبيق',textDirection: TextDirection.rtl),
           actions:[
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(false),
+              onPressed: () => SystemNavigator.pop(),
+
               style: ElevatedButton.styleFrom(backgroundColor: AppColors.DarkGold),
               //return false when click on "NO"
-              child:Text('No'),
+              child:Text('نعم'),
             ),
 
             ElevatedButton(
-              onPressed: () => SystemNavigator.pop(),
+              onPressed: () => Navigator.of(context).pop(false),
               style: ElevatedButton.styleFrom(backgroundColor: AppColors.LightGold),
 
               //return true when click on "Yes"
-              child:Text('Yes'),
+              child:Text('لا'),
             ),
 
           ],
@@ -198,7 +200,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                              onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -207,32 +211,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 30,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    //Button
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -248,7 +229,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -257,7 +240,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -273,7 +258,9 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -282,7 +269,38 @@ class _HomeState extends State<Home> {
                                       children: [
                                         ElevatedButton(
                                             style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
+                                        ),
+                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 30,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    //Button
+                                    Column(
+                                      children: [
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
+                                        ),
+                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                            )
                                         ),
                                         Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                       ],
@@ -300,31 +318,6 @@ class _HomeState extends State<Home> {
                           children: [
                             SizedBox(height: 40,),
                             Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             children: [
-                               //Button
-                               Column(
-                                 children: [
-                                   ElevatedButton(
-                                       style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                       child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
-                                   ),
-                                   Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                 ],
-                               ),
-                               Column(
-                                 children: [
-                                   ElevatedButton(
-                                       style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                       child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
-                                   ),
-                                   Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                 ],
-                               ),
-                             ],
-                           ),
-                            SizedBox(height: 30,),
-                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 //Button
@@ -332,7 +325,9 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],
@@ -341,7 +336,9 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],
@@ -357,7 +354,9 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],
@@ -366,7 +365,9 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],
@@ -382,7 +383,9 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],
@@ -391,7 +394,38 @@ class _HomeState extends State<Home> {
                                   children: [
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,))
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
+                                    ),
+                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 30,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                //Button
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
+                                    ),
+                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                        )
                                     ),
                                     Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                                   ],

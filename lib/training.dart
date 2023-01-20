@@ -76,7 +76,6 @@ class _TrainingState extends State<Training>{
                     children: [
                       SizedBox(height: 40,),
                       Text("صفحه التدريبات",style: TextStyle(fontSize: 50),)
-
                     ],
                   ),
                 ),

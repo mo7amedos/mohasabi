@@ -41,6 +41,7 @@ dependencies:
   ionicons: ^0.2.1
   diamond_bottom_bar: ^1.0.0
   flutter_launch: "^0.3.0"
+  easy_stepper: ^0.3.0
 
 
 
