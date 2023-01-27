@@ -7,7 +7,7 @@ import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
-import 'NavBar.dart';
+import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
@@ -57,7 +57,7 @@ class _MyCaseState extends State<MyCase>{
                         finishedStepTextColor: AppColors.Black,
                         finishedStepBackgroundColor: AppColors.LightGrey,
                         activeStepIconColor: AppColors.LightGrey,
-                        disableScroll: true,
+                        disableScroll: false,
                         enableStepTapping: false,
                         lineColor: AppColors.LightGold,
                         activeStepBorderColor: AppColors.LightGold,
@@ -75,7 +75,15 @@ class _MyCaseState extends State<MyCase>{
                           ),
                           EasyStep(
                             icon: Icon(Icons.payment_rounded),
-                            title: 'الدفع',
+                            title: 'دفع باقي الحساب',
+                          ),
+                          EasyStep(
+                            icon: Icon(Icons.work),
+                            title: 'بدء العمل',
+                          ),
+                          EasyStep(
+                            icon: Icon(Icons.payment_rounded),
+                            title: 'دفع جزء من الحساب',
                           ),
                           EasyStep(
                             icon: Icon(Icons.rate_review_rounded),

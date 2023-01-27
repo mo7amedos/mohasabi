@@ -2,33 +2,31 @@ import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mohasabi/mycase.dart';
-import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
+import 'package:mohasabi/training.dart';
 
-import 'Auth/login.dart';
-import 'config/navbar.dart';
-import 'config/config.dart';
-import 'home.dart';
-import 'info.dart';
+import '../config/NavBar.dart';
+import '../config/config.dart';
+import '../home.dart';
 
-class Training extends StatefulWidget {
+
+class Chat extends StatefulWidget {
 
   @override
-  State<Training> createState() => _TrainingState();
+  State<Chat> createState() => _ChatState();
 }
 
-class _TrainingState extends State<Training>{
+class _ChatState extends State<Chat>{
   void onPressed(index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = 1;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Plans()),
-        ) ;
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),
+        ) as Widget;
         //in middle
-      }else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
-        ) ;            }
+      } else if (index == 1) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
+      }//in middle
       else if (index == 2) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
       }
@@ -71,7 +69,7 @@ class _TrainingState extends State<Training>{
                   child: Column(
                     children: [
                       SizedBox(height: 40,),
-                      Text("صفحه التدريبات",style: TextStyle(fontSize: 50),)
+                      Text("صفحه الدردشه ",style: TextStyle(fontSize: 50),)
                     ],
                   ),
                 ),

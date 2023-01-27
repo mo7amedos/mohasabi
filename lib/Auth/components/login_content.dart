@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mohasabi/home.dart';
+import 'package:mohasabi/training.dart';
 
 import '../utils/constants.dart';
 import '../utils/helper_functions.dart';
@@ -58,7 +59,7 @@ class _LoginContentState extends State<LoginContent>
 
   Widget loginButton(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 16),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
@@ -83,7 +84,33 @@ class _LoginContentState extends State<LoginContent>
       ),
     );
   }
-
+  Widget loginGuestButton() {
+     return Padding(
+       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
+       child: ElevatedButton(
+         onPressed: () {
+           Navigator.push(
+             context,
+             MaterialPageRoute(builder: (context) =>  Training()),
+           );
+         },
+         style: ElevatedButton.styleFrom(
+           padding: const EdgeInsets.symmetric(vertical: 16),
+           shape: const StadiumBorder(),
+           primary: kSecondaryColor,
+           elevation: 8,
+           shadowColor: Colors.black87,
+         ),
+         child: Text(
+           "التدريبات",
+           style: const TextStyle(
+             fontSize: 18,
+             fontWeight: FontWeight.bold,
+           ),
+         ),
+       ),
+     );
+   }
   Widget orDivider() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 8),
@@ -155,6 +182,8 @@ class _LoginContentState extends State<LoginContent>
       inputField('كلمه المرور', Ionicons.lock_closed_outline),
       loginButton('انشاء حساب'),
       orDivider(),
+      loginGuestButton(),
+      orDivider(),
       logos(),
     ];
 
@@ -162,6 +191,8 @@ class _LoginContentState extends State<LoginContent>
       inputField('البريد الالكتروني / اسم المستخدم', Ionicons.mail_outline),
       inputField('كلمه السر', Ionicons.lock_closed_outline),
       loginButton('تسجيل دخول'),
+      orDivider(),
+      loginGuestButton(),
       forgotPassword(),
     ];
 
@@ -200,12 +231,12 @@ class _LoginContentState extends State<LoginContent>
     return Stack(
       children: [
         const Positioned(
-          top: 136,
+          top: 116,
           left: 24,
           child: TopText(),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 100),
+          padding: const EdgeInsets.only(top: 180),
           child: Stack(
             children: [
               Column(
@@ -224,7 +255,7 @@ class _LoginContentState extends State<LoginContent>
         const Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(bottom: 50),
+            padding: EdgeInsets.only(bottom: 30),
             child: BottomText(),
           ),
         ),

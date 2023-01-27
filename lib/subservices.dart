@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/mycase.dart';
+import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
-import 'NavBar.dart';
+import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
@@ -24,22 +25,19 @@ class _SubServicesState extends State<SubServices>{
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
-        ) as Widget;
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Plans()),
+        ) ;
+        //in middle
       } else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
       }//in middle
       else if (index == 2) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Info()),);
-      }else if (index == 3) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
-      }
-      else if (index == 4) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile()),);
       }
     });
   }
-  int _selectedIndex = 0;
+
+  int _selectedIndex = 1;
   Widget _selectedWidget;
   @override
   Widget build(BuildContext context) {
@@ -58,14 +56,11 @@ class _SubServicesState extends State<SubServices>{
                   selectedColor: AppColors.LightGold,
                   unselectedColor: AppColors.Black,
                   itemIcons: const [
-                    Icons.home_rounded,
-                    Icons.model_training_rounded,
+                    Icons.local_offer_rounded,
                     Icons.request_quote_rounded,
-                    Icons.account_circle_rounded,
-
                   ],
                   selectedLightColor: AppColors.LightGold,
-                  centerIcon: Icons.info_rounded,
+                  centerIcon: Icons.home_rounded,
                   selectedIndex: _selectedIndex,
                   onItemPressed: onPressed,
                 ),

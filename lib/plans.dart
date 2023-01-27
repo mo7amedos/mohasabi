@@ -2,33 +2,32 @@ import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mohasabi/mycase.dart';
-import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
+import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
-import 'config/navbar.dart';
+import 'config/NavBar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
+import 'myprofile.dart';
 
-class Training extends StatefulWidget {
+class Plans extends StatefulWidget {
 
   @override
-  State<Training> createState() => _TrainingState();
+  State<Plans> createState() => _PlansState();
 }
 
-class _TrainingState extends State<Training>{
+class _PlansState extends State<Plans>{
   void onPressed(index) {
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Plans()),
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
         ) ;
         //in middle
-      }else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
-        ) ;            }
+      } else if (index == 1) {
+      }//in middle
       else if (index == 2) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
       }
@@ -53,11 +52,11 @@ class _TrainingState extends State<Training>{
                   selectedColor: AppColors.LightGold,
                   unselectedColor: AppColors.Black,
                   itemIcons: const [
-                    Icons.local_offer_rounded,
+                    Icons.home_rounded,
                     Icons.request_quote_rounded,
                   ],
                   selectedLightColor: AppColors.LightGold,
-                  centerIcon: Icons.home_rounded,
+                  centerIcon: Icons.local_offer_rounded,
                   selectedIndex: _selectedIndex,
                   onItemPressed: onPressed,
                 ),
@@ -71,7 +70,7 @@ class _TrainingState extends State<Training>{
                   child: Column(
                     children: [
                       SizedBox(height: 40,),
-                      Text("صفحه التدريبات",style: TextStyle(fontSize: 50),)
+                      Text("صفحه العروض ",style: TextStyle(fontSize: 50),)
                     ],
                   ),
                 ),

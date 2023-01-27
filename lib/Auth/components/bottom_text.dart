@@ -41,7 +41,7 @@ class _BottomTextState extends State<BottomText> {
         },
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.only(left: 16,right: 16,top: 30),
           child: RichText(
             text: TextSpan(
               style: const TextStyle(

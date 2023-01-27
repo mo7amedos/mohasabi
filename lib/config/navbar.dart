@@ -6,7 +6,7 @@ import 'package:mohasabi/myprofile.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
-import 'info.dart';
+import '../info.dart';
 
 
 class NavBar extends StatelessWidget {

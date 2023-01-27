@@ -3,15 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Auth/login.dart';
+import 'package:mohasabi/chat/chat.dart';
 import 'package:mohasabi/config/config.dart';
+import 'package:mohasabi/mycase.dart';
 import 'package:mohasabi/myprofile.dart';
+import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/subservices.dart';
 import 'package:mohasabi/training.dart';
 
 
 import 'info.dart';
-import 'navbar.dart';
+import 'config/navbar.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -19,25 +22,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
    Widget _selectedWidget;
    //bottom bar
   void onPressed(index) {
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
-        ) as Widget;
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Plans()),
+        );
+        //in middle
       } else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),);
-      }//in middle
-      else if (index == 2) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Info()),);
-      }else if (index == 3) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
       }
-      else if (index == 4) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile()),);
+      else if (index == 2) {
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Requests()),);
       }
     });
   }
@@ -78,21 +77,27 @@ class _HomeState extends State<Home> {
               children: [
             Expanded(
               child: DefaultTabController(
-                initialIndex: 1,
+                initialIndex: 0,
                 length: 2,
                 child: Scaffold(
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  Chat()),
+                      );
+                    },
+                    backgroundColor: AppColors.LightGold,
+                    child: const Icon(Icons.chat_rounded,color: AppColors.White),
+                  ),
                   drawer: NavBar(),
                   bottomNavigationBar: DiamondBottomNavigation(
                     selectedColor: AppColors.LightGold,
                     unselectedColor: AppColors.Black,
                     itemIcons: const [
-                      Icons.home_rounded,
-                      Icons.model_training_rounded,
+                      Icons.local_offer_rounded,
                       Icons.request_quote_rounded,
-                      Icons.account_circle_rounded,
                     ],
                     selectedLightColor: AppColors.LightGold,
-                    centerIcon: Icons.info_rounded,
+                    centerIcon: Icons.home_rounded,
                     selectedIndex: _selectedIndex,
                     onItemPressed: onPressed,
                   ),
@@ -316,6 +321,59 @@ class _HomeState extends State<Home> {
                       SingleChildScrollView(
                         child: Column(
                           children: [
+                            SizedBox(height: 10,),
+                            //Drop down List
+                            DecoratedBox(
+                                decoration: BoxDecoration(
+                                    color:AppColors.LightGold, //background color of dropdown button
+                                    border: Border.all(color: AppColors.DarkGold, width:3), //border of dropdown button
+                                    borderRadius: BorderRadius.circular(50), //border raiuds of dropdown button
+                                    boxShadow: <BoxShadow>[ //apply shadow on Dropdown button
+                                      BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.57), //shadow for button
+                                          blurRadius: 5) //blur radius of shadow
+                                    ]
+                                ),
+
+                                child:Padding(
+                                    padding: EdgeInsets.only(left:30, right:30),
+                                    child:DropdownButton(
+                                      value: "عيادة دكتور احمد",
+                                      items: [ //add items in the dropdown
+                                        DropdownMenuItem(
+                                          child: Text("عيادة دكتور احمد"),
+                                          value: "عيادة دكتور احمد",
+                                        ),
+                                        DropdownMenuItem(
+                                            child: Text("محل النجمة"),
+                                            value: "محل النجمة"
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text("عطاره الشمس"),
+                                          value: "عطاره الشمس",
+                                        )
+
+                                      ],
+                                      onChanged: (value){ //get value when changed
+                                        print("You have selected $value");
+                                      },
+
+                                      icon: Padding( //Icon at tail, arrow bottom is default icon
+                                          padding: EdgeInsets.only(left:20),
+                                          child:Icon(Icons.arrow_circle_down_sharp)
+                                      ),
+                                      iconEnabledColor: Colors.white, //Icon color
+                                      style: TextStyle(  //te
+                                          color: Colors.white, //Font color
+                                          fontSize: 20 //font size on dropdown button
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      dropdownColor: AppColors.LightGold, //dropdown background color
+                                      underline: Container(), //remove underline
+                                      isExpanded: true, //make true to make width 100%
+                                    )
+                                )
+                            ),
                             SizedBox(height: 40,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

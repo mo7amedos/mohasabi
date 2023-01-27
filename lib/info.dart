@@ -2,11 +2,12 @@ import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mohasabi/myprofile.dart';
+import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
-import 'NavBar.dart';
+import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
 
@@ -21,20 +22,18 @@ class _InfoState extends State<Info>{
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Info()),
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Plans()),
         ) as Widget;
+        //in middle
       } else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
       }//in middle
       else if (index == 2) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
-      }else if (index == 3) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
-      } else if (index == 4) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile()),);
       }
     });
   }
+
   int _selectedIndex = 0;
   Widget _selectedWidget;
   @override
@@ -54,11 +53,8 @@ class _InfoState extends State<Info>{
                   selectedColor: AppColors.LightGold,
                   unselectedColor: AppColors.Black,
                   itemIcons: const [
-                    Icons.info_rounded,
-                    Icons.model_training_rounded,
+                    Icons.local_offer_rounded,
                     Icons.request_quote_rounded,
-                    Icons.account_circle_rounded,
-
                   ],
                   selectedLightColor: AppColors.LightGold,
                   centerIcon: Icons.home_rounded,
