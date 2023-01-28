@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "743522927462",
+    "project_id": "mohasabi-999a5",
+    "storage_bucket": "mohasabi-999a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743522927462:android:1f755856e9e91da559bea7",
+        "android_client_info": {
+          "package_name": "com.example.mohasabi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743522927462-n9otg7vm4g458926bj1j6ashuvl5u476.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mohasabi",
+            "certificate_hash": "2b74a4a2c07d5ca046303d7d0f3714f738ece94c"
+          }
+        },
+        {
+          "client_id": "743522927462-lis31qr8ukirfe5eanh87p2u3mkj8j6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqX__Qk2mfA-i2lOsNWrJRNE95QtL43MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743522927462-lis31qr8ukirfe5eanh87p2u3mkj8j6e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -59,6 +59,29 @@
       });
     });
   </script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCo0JahhJni-b2tU3Yvhz8YJexUZx3RyFQ",
+    authDomain: "mohasabi-999a5.firebaseapp.com",
+    projectId: "mohasabi-999a5",
+    storageBucket: "mohasabi-999a5.appspot.com",
+    messagingSenderId: "743522927462",
+    appId: "1:743522927462:web:ca69295340cf205f59bea7",
+    measurementId: "G-35ZNPG92CX"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 
 
 </body></html>

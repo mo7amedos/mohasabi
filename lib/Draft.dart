@@ -7,7 +7,7 @@ import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
-import 'NavBar.dart';
+import 'config/NavBar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
