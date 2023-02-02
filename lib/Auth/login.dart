@@ -7,7 +7,6 @@ import 'components/center_widget/center_widget.dart';
 import 'components/login_content.dart';
 
 class Login extends StatefulWidget {
-
   @override
   State<Login> createState() => _LoginState();
 }
@@ -59,6 +58,8 @@ class _LoginState extends State<Login> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       body: Stack(
         children: [
           Positioned(
