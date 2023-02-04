@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mohasabi/Auth/signup.dart';
 import 'package:mohasabi/home.dart';
@@ -26,6 +28,10 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _emailTextEditingController = TextEditingController();
 final TextEditingController _passwordTextEditingController = TextEditingController();
 FirebaseAuth _auth = FirebaseAuth.instance;
+GoogleSignIn _googleSignIn = GoogleSignIn();
+FacebookLogin _facebookLogin=FacebookLogin();
+
+
 
 
 class LoginContent extends StatefulWidget {
@@ -300,9 +306,21 @@ class _LoginContentState extends State<LoginContent>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/facebook.png'),
-          const SizedBox(width: 24),
-          Image.asset('assets/images/google.png'),
+         /* GestureDetector(
+            onTap: (){
+              Signinfacebook();
+            },
+            child:Image.asset('assets/images/facebook.png'),
+
+          ),
+          const SizedBox(width: 24),*/
+          GestureDetector(
+            onTap: (){
+              SignInG();
+            },
+            child:Image.asset('assets/images/google.png'),
+          ),
+
         ],
       ),
     );
@@ -379,37 +397,6 @@ class _LoginContentState extends State<LoginContent>
     super.dispose();
   }
 
- /* void signUp() async {
-    if(_formKey.currentState.validate()){
-      _formKey.currentState.save();
-      try{
-        User firebaseUser;
-        await _auth.createUserWithEmailAndPassword(
-          email: _email,
-          password: _password,
-        )
-            .then((auth) {
-          firebaseUser = auth.user;
-        }).catchError((error) {
-          Navigator.pop(context);
-          showDialog(
-              context: context,
-              builder: (C) {
-                return ErrorAlertDialog(
-                  message: error.message.toString(),
-                );
-              });
-        });
-        if (firebaseUser != null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>  Signup(_email,_password)));
-        }
-      }catch (e) {
-        print(e.message);
-      }
-
-    }
-
-  }*/
   void signUp() async {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
@@ -493,6 +480,19 @@ class _LoginContentState extends State<LoginContent>
     }
   }
 
+  void Signinfacebook() async {
+    FacebookLoginResult result= await _facebookLogin.logIn(['email']);
+    final accessToken=result.accessToken.token;
+    if(result.status==FacebookLoginStatus.loggedIn){
+      final faceCredential=FacebookAuthProvider.credential(accessToken);
+      User user = (await _auth.signInWithCredential(faceCredential)).user;
+      readData(user).then((s) {
+        saveUserGoogleandFacebookToFirestore(user);
+        Route route = MaterialPageRoute(builder: (C) => Home());
+        Navigator.pushReplacement(context, route);
+      });
+    }
+  }
   Future readData(User fUser) async {
     FirebaseFirestore.instance.collection("users").doc(fUser.uid).get()
         .then((dataSnapshot) async {
@@ -500,6 +500,41 @@ class _LoginContentState extends State<LoginContent>
       await Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, dataSnapshot.data()[Mohasabi.userEmail]);
       await Mohasabi.sharedPreferences.setString(Mohasabi.userName, dataSnapshot.data()[Mohasabi.userName]);
       await Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, dataSnapshot.data()[Mohasabi.userPhone]);
+      await Mohasabi.sharedPreferences.setString(Mohasabi.userRole, dataSnapshot.data()[Mohasabi.userRole]);
+
     });
+  }
+  void SignInG() async {
+    GoogleSignInAccount account = await _googleSignIn.signIn();
+    GoogleSignInAuthentication authentication = await account.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: authentication.idToken,
+        accessToken: authentication.accessToken);
+    User user= (await _auth.signInWithCredential(credential)).user;
+
+
+    readData(user).then((s) {
+      saveUserGoogleandFacebookToFirestore(user);
+      Route route = MaterialPageRoute(builder: (C) => Home());
+      Navigator.pushReplacement(context, route);
+
+    });
+
+  }
+  Future saveUserGoogleandFacebookToFirestore(User fUser) async {
+    FirebaseFirestore.instance.collection("users").doc(fUser.uid).set({
+      "uid": fUser.uid,
+      "email": fUser.email,
+      "name": fUser.displayName,
+      "url": fUser.photoURL,
+      "role":"stander"
+    });
+    await Mohasabi.sharedPreferences.setString("uid", fUser.uid);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, fUser.email);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userName, fUser.displayName);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userAvatarUrl, fUser.photoURL);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, fUser.phoneNumber);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userRole, "stander");
+
   }
 }

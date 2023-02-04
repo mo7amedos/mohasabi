@@ -18,24 +18,19 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Islam Ali'),
-            accountEmail: Text('Islam@gmail.com'),
+            accountName: Text(Mohasabi.sharedPreferences.getString(Mohasabi.userName)),
+            accountEmail: Text(Mohasabi.sharedPreferences.getString(Mohasabi.userEmail)),
             currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.network(
-                  'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
-                ),
-              ),
+              backgroundImage: Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl)==null ?
+              AssetImage('assets/images/icon.png')
+                  :NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl),),
             ),
             decoration: BoxDecoration(
               color: AppColors.White,
               image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                      'https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')),
+                  image: AssetImage('assets/images/cover.jpg')
+              ),
             ),
           ),
           ListTile(

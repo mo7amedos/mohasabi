@@ -27,4 +27,5 @@ class Mohasabi{
   static final String userUID = 'uid';
   static final String userPhone = 'phone';
   static final String userAvatarUrl = 'url';
+  static final String userRole = 'role';
 }
