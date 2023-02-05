@@ -37,7 +37,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.11.0
-  flutter_native_splash: ^2.2.16
   ionicons: ^0.2.1
   diamond_bottom_bar: ^1.0.0
   flutter_launch: "^0.3.0"
@@ -49,7 +48,7 @@ dependencies:
   cloud_firestore: ^4.3.1
   email_validator: ^2.1.17
   google_sign_in: ^5.4.4
-  flutter_facebook_login: ^3.0.0
+  flutter_native_splash: ^2.2.16
 
 
 
@@ -76,10 +75,6 @@ flutter_icons:
       background_color: "#hexcode"
       theme_color: "#hexcode"
 
-flutter_native_splash:
-  image: assets/images/splash.png
-  color: "42a5f5"
-  fill: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -94,10 +89,10 @@ flutter:
 
   assets:
    - assets/images/icon.png
-   - assets/images/splash.png
    - assets/images/google.png
    - assets/images/facebook.png
    - assets/images/cover.jpg
+   - assets/images/splash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

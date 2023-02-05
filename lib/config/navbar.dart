@@ -52,9 +52,7 @@ class NavBar extends StatelessWidget {
             leading: Icon(Icons.model_training_rounded,color: AppColors.LightGold),
             title: Text('تدريبات'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  Training()),),
-
           ),
-
           Divider(),
           ListTile(
             leading: Icon(Icons.settings,color: AppColors.LightGold),
@@ -70,7 +68,6 @@ class NavBar extends StatelessWidget {
             leading: Icon(Icons.contact_phone_rounded,color: AppColors.LightGold),
             title: Text('تواصل معنا'),
             onTap: () => null
-
           ),
           Divider(),
           ListTile(
@@ -78,14 +75,27 @@ class NavBar extends StatelessWidget {
             leading: Icon(Icons.exit_to_app,color: AppColors.LightGold),
             onTap: () => showDialog(context: context,
                 builder: (context)=> AlertDialog(
-                  title: Text('Exit App'),
-                  content: Text('Do you want to exit an App?'),
-                  actions: [
-                    ElevatedButton(onPressed: () => Navigator.of(context).pop(false), child:Text('No'),),
-                    ElevatedButton(onPressed: () => SystemNavigator.pop(), child:Text('Yes'),)
+                  title: Text('الخروج',textDirection: TextDirection.rtl),
+                  content: Text('هل تريد الخروج من التطبيق',textDirection: TextDirection.rtl),
+                  actions:[
+                    ElevatedButton(
+                      onPressed: () => SystemNavigator.pop(),
+
+                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.DarkGold),
+                      //return false when click on "NO"
+                      child:Text('نعم'),
+                    ),
+
+                    ElevatedButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.LightGold),
+
+                      //return true when click on "Yes"
+                      child:Text('لا'),
+                    ),
 
                   ],
-                )
+                ),
             ),
           ),
         ],

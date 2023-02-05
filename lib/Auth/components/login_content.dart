@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mohasabi/Auth/signup.dart';
@@ -29,7 +29,7 @@ final TextEditingController _emailTextEditingController = TextEditingController(
 final TextEditingController _passwordTextEditingController = TextEditingController();
 FirebaseAuth _auth = FirebaseAuth.instance;
 GoogleSignIn _googleSignIn = GoogleSignIn();
-FacebookLogin _facebookLogin=FacebookLogin();
+//FacebookLogin _facebookLogin=FacebookLogin();
 
 
 
@@ -480,7 +480,7 @@ class _LoginContentState extends State<LoginContent>
     }
   }
 
-  void Signinfacebook() async {
+  /*void Signinfacebook() async {
     FacebookLoginResult result= await _facebookLogin.logIn(['email']);
     final accessToken=result.accessToken.token;
     if(result.status==FacebookLoginStatus.loggedIn){
@@ -492,7 +492,7 @@ class _LoginContentState extends State<LoginContent>
         Navigator.pushReplacement(context, route);
       });
     }
-  }
+  }*/
   Future readData(User fUser) async {
     FirebaseFirestore.instance.collection("users").doc(fUser.uid).get()
         .then((dataSnapshot) async {
