@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +9,24 @@ import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
 import 'Auth/login.dart';
+import 'Model/services.dart';
 import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
 import 'myprofile.dart';
 
+
 class SubServices extends StatefulWidget {
+  final String Id;
+  const SubServices({Key key, this.Id}) : super(key: key);
 
   @override
   State<SubServices> createState() => _SubServicesState();
 }
 
 class _SubServicesState extends State<SubServices>{
+
   void onPressed(index) {
     setState(() {
       _selectedIndex = index;
@@ -75,126 +81,47 @@ class _SubServicesState extends State<SubServices>{
                     children: [
                       SizedBox(height: 10,),
                       SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 40,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
+                        child:  FutureBuilder<QuerySnapshot>(
+                          future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).doc(widget.Id).collection(Mohasabi.collectionSubservices).get(),
+                          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasData) {
+                              return GridView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
                                 ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
+                                itemCount: snapshot.data.docs.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  ServicesModel model = ServicesModel.fromJson(snapshot.data.docs[index].data());
+                                  //DocumentSnapshot document = snapshot.data.docs[index];
+
+                                  return Card(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                              child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                  onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),)
+                                              )
+                                          ),
+                                          SizedBox(height: 5,),
+                                          Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],
+                                      ),
                                     ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => MyCase()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        )
                       )
 
                     ],

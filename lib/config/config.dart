@@ -22,10 +22,21 @@ class Mohasabi{
   static FirebaseAuth auth;
   static FirebaseFirestore firestore ;
 
+  static String collectionUser = "users";
+  static String collectionAdimn = "admins";
+  static String collectionServices = "services";
+  static String collectionSubservices = "subservices";
+  static String collectionCompanies ='companies';
+  static String collectionIndividuals ='individuals';
+
+
+
+
   static final String userName = 'name';
   static final String userEmail = 'email';
   static final String userUID = 'uid';
   static final String userPhone = 'phone';
   static final String userAvatarUrl = 'url';
   static final String userRole = 'role';
+
 }

@@ -6,13 +6,13 @@ class ServicesModel {
   String title;
   String description;
   String imgurl;
-  int serviceid;
+  String idservice;
   String type;
 
   ServicesModel({
     this.description,
     this.imgurl,
-    this.serviceid,
+    this.idservice,
     this.title,
     this.type
 });
@@ -20,7 +20,7 @@ class ServicesModel {
 ServicesModel.fromJson(Map<String,dynamic>json){
   title = json['title'];
   type = json['type'];
-  serviceid = json['serviceid'];
+  idservice = json['serviceid'];
   imgurl = json['imgurl'];
   description = json['description'];
 }
@@ -31,7 +31,56 @@ ServicesModel.fromJson(Map<String,dynamic>json){
     data['description'] = this.description;
     data['imgurl'] = this.imgurl;
     data['type'] = this.type;
-    data['serviceid'] = this.serviceid;
+    data['serviceid'] = this.idservice;
+
+
+    return data;
+  }
+
+}
+
+class CompanyModel {
+  String name;
+  String mobile;
+  String address;
+  String activity;
+  String type;
+  String email;
+  String id;
+
+  CompanyModel({
+    this.activity,
+    this.address,
+    this.mobile,
+    this.name,
+    this.type,
+    this.email,
+    this.id
+  });
+
+  CompanyModel.fromJson(Map<String,dynamic>json){
+    name = json['name'];
+    type = json['type'];
+    mobile = json['mobile'];
+    address = json['address'];
+    activity = json['activity'];
+    email = json['email'];
+    id = json['id'];
+
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['activity'] = this.activity;
+    data['address'] = this.address;
+    data['type'] = this.type;
+    data['mobile'] = this.mobile;
+    data['name'] = this.name;
+    data['id'] = this.id;
+
+
 
 
     return data;

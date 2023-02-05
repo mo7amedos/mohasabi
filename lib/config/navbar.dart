@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/Admin/dataentry.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/home.dart';
 import 'package:mohasabi/myprofile.dart';
@@ -57,7 +58,7 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings,color: AppColors.LightGold),
             title: Text('الاعدادات'),
-            onTap: () => null,
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  DataEntry()),),
           ),
           ListTile(
             leading: Icon(Icons.description,color: AppColors.LightGold),

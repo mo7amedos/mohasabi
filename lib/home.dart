@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Auth/login.dart';
+import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/chat/chat.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/mycase.dart';
@@ -23,7 +25,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
-   Widget _selectedWidget;
+  String _selectedValueCompany,_selectedValueIndividual ;
+
+  Widget _selectedWidget;
    //bottom bar
   void onPressed(index) {
     setState(() {
@@ -115,8 +119,6 @@ class _HomeState extends State<Home> {
                         bottomRight: Radius.circular(20.0),
                       ),
                     ),
-
-
                     bottom: const TabBar(
                       indicator: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -136,12 +138,11 @@ class _HomeState extends State<Home> {
                   ),
                   body:  TabBarView(
                     children: <Widget>[
+                      //شركات
                       SingleChildScrollView(
                         child: Column(children: [
 
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10,),
                           //Drop down List
                           DecoratedBox(
                               decoration: BoxDecoration(
@@ -157,171 +158,106 @@ class _HomeState extends State<Home> {
 
                               child:Padding(
                                   padding: EdgeInsets.only(left:30, right:30),
-                                  child:DropdownButton(
-                                    value: "شركة ماركو للدهانات",
-                                    items: [ //add items in the dropdown
-                                      DropdownMenuItem(
-                                        child: Text("المصرية للتصنيع"),
-                                        value: "المصرية للتصنيع",
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text("الشركة العربية للبترول"),
-                                          value: "الشركة العربية للبترول"
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("شركة ماركو للدهانات"),
-                                        value: "شركة ماركو للدهانات",
-                                      )
+                                  child:FutureBuilder<QuerySnapshot>(
+                                    future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser).
+                                    doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
+                                    collection(Mohasabi.collectionCompanies).get(),
+                                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasData) {
+                                        List<DropdownMenuItem> dropdownItems = [];
+                                        for (int i = 0; i < snapshot.data.docs.length; i++) {
+                                          CompanyModel model =CompanyModel.fromJson(snapshot.data.docs[i].data());
+                                          //DocumentSnapshot document = snapshot.data.docs[i];
+                                          dropdownItems.add(
+                                            DropdownMenuItem(
+                                              child: Text(model.name),
+                                              value: model.id,
+                                            ),
+                                          );
+                                        }
 
-                                    ],
-                                    onChanged: (value){ //get value when changed
-                                      print("You have selected $value");
+                                        return DropdownButton(
+                                          value: _selectedValueCompany,
+                                          items: dropdownItems,
+                                          onChanged: (value){ //get value when changed
+                                            setState(() {
+                                              _selectedValueCompany = value;
+                                            });
+                                          },
+
+                                          icon: Padding( //Icon at tail, arrow bottom is default icon
+                                              padding: EdgeInsets.only(left:20),
+                                              child:Icon(Icons.arrow_circle_down_sharp)
+                                          ),
+                                          iconEnabledColor: Colors.white, //Icon color
+                                          style: TextStyle(  //te
+                                              color: Colors.white, //Font color
+                                              fontSize: 20 //font size on dropdown button
+                                          ),
+                                          borderRadius: BorderRadius.circular(20),
+                                          dropdownColor: AppColors.LightGold, //dropdown background color
+                                          underline: Container(), //remove underline
+                                          isExpanded: true, //make true to make width 100%
+                                        );
+                                      } else {
+                                        return CircularProgressIndicator();
+                                      }
                                     },
-
-                                    icon: Padding( //Icon at tail, arrow bottom is default icon
-                                        padding: EdgeInsets.only(left:20),
-                                        child:Icon(Icons.arrow_circle_down_sharp)
-                                    ),
-                                    iconEnabledColor: Colors.white, //Icon color
-                                    style: TextStyle(  //te
-                                        color: Colors.white, //Font color
-                                        fontSize: 20 //font size on dropdown button
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                    dropdownColor: AppColors.LightGold, //dropdown background color
-                                    underline: Container(), //remove underline
-                                    isExpanded: true, //make true to make width 100%
                                   )
+
                               )
                           ),
-                           Column(
-                              children: [
-                                SizedBox(height: 40,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    //Button
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                              onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 30,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    //Button
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 30,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    //Button
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 30,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    //Button
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                            child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                            )
-                                        ),
-                                        Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
 
-                        ],),
+                  FutureBuilder<QuerySnapshot>(
+                    future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).where("type",isEqualTo: "company").get(),
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                          ),
+                          itemCount: snapshot.data.docs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            ServicesModel model = ServicesModel.fromJson(snapshot.data.docs[index].data());
+                            //DocumentSnapshot document = snapshot.data.docs[index];
+                            return Card(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    ElevatedButton(
+                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices(Id: model.idservice,)),)
+                                        )
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  )
+
+
+                  ],),
                       ),
                       //افراد
                       SingleChildScrollView(
                         child: Column(
                           children: [
                             SizedBox(height: 10,),
+                            //Drop down List
                             //Drop down List
                             DecoratedBox(
                                 decoration: BoxDecoration(
@@ -337,159 +273,94 @@ class _HomeState extends State<Home> {
 
                                 child:Padding(
                                     padding: EdgeInsets.only(left:30, right:30),
-                                    child:DropdownButton(
-                                      value: "عيادة دكتور احمد",
-                                      items: [ //add items in the dropdown
-                                        DropdownMenuItem(
-                                          child: Text("عيادة دكتور احمد"),
-                                          value: "عيادة دكتور احمد",
-                                        ),
-                                        DropdownMenuItem(
-                                            child: Text("محل النجمة"),
-                                            value: "محل النجمة"
-                                        ),
-                                        DropdownMenuItem(
-                                          child: Text("عطاره الشمس"),
-                                          value: "عطاره الشمس",
-                                        )
+                                    child:FutureBuilder<QuerySnapshot>(
+                                      future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser).doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).collection(Mohasabi.collectionIndividuals).get(),
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasData) {
+                                          List<DropdownMenuItem> dropdownItems = [];
+                                          for (int i = 0; i < snapshot.data.docs.length; i++) {
+                                            CompanyModel model =CompanyModel.fromJson(snapshot.data.docs[i].data());
+                                            //DocumentSnapshot document = snapshot.data.docs[i];
+                                            dropdownItems.add(
+                                              DropdownMenuItem(
+                                                child: Text(model.name),
+                                                value: model.id,
+                                              ),
+                                            );
+                                          }
 
-                                      ],
-                                      onChanged: (value){ //get value when changed
-                                        print("You have selected $value");
+                                          return DropdownButton(
+                                            value: _selectedValueIndividual,
+                                            items: dropdownItems,
+                                            onChanged: (value){ //get value when changed
+                                              setState(() {
+                                                _selectedValueIndividual = value;
+                                              });
+                                            },
+
+                                            icon: Padding( //Icon at tail, arrow bottom is default icon
+                                                padding: EdgeInsets.only(left:20),
+                                                child:Icon(Icons.arrow_circle_down_sharp)
+                                            ),
+                                            iconEnabledColor: Colors.white, //Icon color
+                                            style: TextStyle(  //te
+                                                color: Colors.white, //Font color
+                                                fontSize: 20 //font size on dropdown button
+                                            ),
+                                            borderRadius: BorderRadius.circular(20),
+                                            dropdownColor: AppColors.LightGold, //dropdown background color
+                                            underline: Container(), //remove underline
+                                            isExpanded: true, //make true to make width 100%
+                                          );
+                                        } else {
+                                          return CircularProgressIndicator();
+                                        }
                                       },
-
-                                      icon: Padding( //Icon at tail, arrow bottom is default icon
-                                          padding: EdgeInsets.only(left:20),
-                                          child:Icon(Icons.arrow_circle_down_sharp)
-                                      ),
-                                      iconEnabledColor: Colors.white, //Icon color
-                                      style: TextStyle(  //te
-                                          color: Colors.white, //Font color
-                                          fontSize: 20 //font size on dropdown button
-                                      ),
-                                      borderRadius: BorderRadius.circular(20),
-                                      dropdownColor: AppColors.LightGold, //dropdown background color
-                                      underline: Container(), //remove underline
-                                      isExpanded: true, //make true to make width 100%
                                     )
+
                                 )
                             ),
-                            SizedBox(height: 40,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
+                            FutureBuilder<QuerySnapshot>(
+                              future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).where("type",isEqualTo: "individual").get(),
+                              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasData) {
+                                  return GridView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
                                     ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                //Button
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                        )
-                                    ),
-                                    Text("خدمات ضرائب",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    itemCount: snapshot.data.docs.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      ServicesModel model = ServicesModel.fromJson(snapshot.data.docs[index].data());
+                                      //DocumentSnapshot document = snapshot.data.docs[index];
+
+                                      return Card(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
+                                                  child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
+                                                      onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
+                                                  )
+                                              ),
+                                              SizedBox(height: 5,),
+                                              Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            )
                           ],
                         ),
                       )
