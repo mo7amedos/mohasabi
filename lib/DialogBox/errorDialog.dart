@@ -22,7 +22,7 @@ class ErrorAlertDialog extends StatelessWidget
           Navigator.pop(context);
         },
           child: Center(
-            child: Text("OK"),
+            child: Text("تاكيد"),
           ),
         )
       ],

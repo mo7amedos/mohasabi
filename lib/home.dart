@@ -207,7 +207,7 @@ class _HomeState extends State<Home> {
 
                               )
                           ),
-
+//الخدمات
                   FutureBuilder<QuerySnapshot>(
                     future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).where("type",isEqualTo: "company").get(),
                     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -228,11 +228,10 @@ class _HomeState extends State<Home> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                        child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                            onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices(Id: model.idservice,)),)
-                                        )
+                                    
+                                    InkWell(
+                                      child: Container(
+                                          child: Image.network(model.imgurl,fit: BoxFit.fill),height: 120),
                                     ),
                                     SizedBox(height: 5,),
                                     Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],

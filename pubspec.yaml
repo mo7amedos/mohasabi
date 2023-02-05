@@ -49,6 +49,9 @@ dependencies:
   email_validator: ^2.1.17
   google_sign_in: ^5.4.4
   flutter_native_splash: ^2.2.16
+  path: ^1.8.2
+  firebase_storage: ^11.0.10
+  cross_file: ^0.3.3+4
 
 
 

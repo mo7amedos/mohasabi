@@ -18,7 +18,7 @@ class LoadingAlertDialog extends StatelessWidget
           SizedBox(
             height: 10,
           ),
-          Text('Authenticating, Please wait.....'),
+          Text('برجاء الانتظار....'),
         ],
       ),
     );
