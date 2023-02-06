@@ -52,6 +52,7 @@ dependencies:
   path: ^1.8.2
   firebase_storage: ^11.0.10
   cross_file: ^0.3.3+4
+  flutter_image_compress: ^1.1.3
 
 
 

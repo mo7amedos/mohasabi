@@ -102,11 +102,12 @@ class _SubServicesState extends State<SubServices>{
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                              child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                  onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),)
-                                              )
+                                          InkWell(
+                                            child: Container(
+                                                child: Image.network(model.imgurl,fit: BoxFit.fill),height: 120),
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
+                                            },
                                           ),
                                           SizedBox(height: 5,),
                                           Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],

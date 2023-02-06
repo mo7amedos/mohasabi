@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
 
                           SizedBox(height: 10,),
                           //Drop down List
-                          DecoratedBox(
+                         /* DecoratedBox(
                               decoration: BoxDecoration(
                                   color:AppColors.LightGold, //background color of dropdown button
                                   border: Border.all(color: AppColors.DarkGold, width:3), //border of dropdown button
@@ -206,7 +206,7 @@ class _HomeState extends State<Home> {
                                   )
 
                               )
-                          ),
+                          ),*/
 //الخدمات
                   FutureBuilder<QuerySnapshot>(
                     future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).where("type",isEqualTo: "company").get(),
@@ -228,10 +228,12 @@ class _HomeState extends State<Home> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    
                                     InkWell(
                                       child: Container(
                                           child: Image.network(model.imgurl,fit: BoxFit.fill),height: 120),
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices(Id: model.idservice,)),);
+                                      },
                                     ),
                                     SizedBox(height: 5,),
                                     Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],
@@ -257,8 +259,7 @@ class _HomeState extends State<Home> {
                           children: [
                             SizedBox(height: 10,),
                             //Drop down List
-                            //Drop down List
-                            DecoratedBox(
+                           /* DecoratedBox(
                                 decoration: BoxDecoration(
                                     color:AppColors.LightGold, //background color of dropdown button
                                     border: Border.all(color: AppColors.DarkGold, width:3), //border of dropdown button
@@ -318,7 +319,7 @@ class _HomeState extends State<Home> {
                                     )
 
                                 )
-                            ),
+                            ),*/
                             FutureBuilder<QuerySnapshot>(
                               future: FirebaseFirestore.instance.collection(Mohasabi.collectionServices).where("type",isEqualTo: "individual").get(),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -340,14 +341,15 @@ class _HomeState extends State<Home> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
-                                              ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(shape: CircleBorder(side: BorderSide(color: AppColors.LightGold))),
-                                                  child: IconButton(iconSize: 120, icon: Icon (Icons.apartment_rounded,),
-                                                      onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices()),)
-                                                  )
+                                              InkWell(
+                                                child: Container(
+                                                    child: Image.network(model.imgurl,fit: BoxFit.fill),height: 120),
+                                                onTap: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>  SubServices(Id: model.idservice,)),);
+                                                },
                                               ),
                                               SizedBox(height: 5,),
-                                              Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                  ],
+                                              Text(model.title,style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.center,)                                ],
                                           ),
                                         ),
                                       );

@@ -8,21 +8,29 @@ class ServicesModel {
   String imgurl;
   String idservice;
   String type;
+  String price;
+  String idsubservice;
+
 
   ServicesModel({
     this.description,
     this.imgurl,
     this.idservice,
     this.title,
-    this.type
+    this.type,
+    this.price,
+    this.idsubservice,
 });
 
 ServicesModel.fromJson(Map<String,dynamic>json){
   title = json['title'];
   type = json['type'];
-  idservice = json['serviceid'];
+  idservice = json['idservice'];
   imgurl = json['imgurl'];
   description = json['description'];
+  price = json['price'];
+  idsubservice = json['idsubservice'];
+
 }
 
   Map<String, dynamic> toJson() {
@@ -31,8 +39,9 @@ ServicesModel.fromJson(Map<String,dynamic>json){
     data['description'] = this.description;
     data['imgurl'] = this.imgurl;
     data['type'] = this.type;
-    data['serviceid'] = this.idservice;
-
+    data['idservice'] = this.idservice;
+    data['price'] = this.price;
+    data['idsubservice'] = this.idsubservice;
 
     return data;
   }
