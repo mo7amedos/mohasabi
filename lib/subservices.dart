@@ -94,7 +94,6 @@ class _SubServicesState extends State<SubServices>{
                                 itemCount: snapshot.data.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   ServicesModel model = ServicesModel.fromJson(snapshot.data.docs[index].data());
-                                  //DocumentSnapshot document = snapshot.data.docs[index];
 
                                   return Card(
                                     child: Padding(

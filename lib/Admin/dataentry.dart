@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mohasabi/Admin/showsubservices.dart';
+import 'package:mohasabi/Admin/showmainservices.dart';
 import 'package:mohasabi/DialogBox/errorDialog.dart';
 
 import '../DialogBox/loadingDialog.dart';
@@ -61,7 +61,7 @@ class _DataEntryState extends State<DataEntry>{
                   appBar: AppBar(
                     iconTheme: IconThemeData(color: AppColors.Black),
                     backgroundColor: AppColors.White,
-                    title: Text("الخدمات الرئيسية" ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
+                    title: Text("اضافة خدمة رئيسية" ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
                     centerTitle: true,
                     bottom: const TabBar(
                       indicator: BoxDecoration(
@@ -199,7 +199,7 @@ class _DataEntryState extends State<DataEntry>{
                               ),),
                               SizedBox(height: 50,),
                               InkWell(onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) =>  ShowSubServices()),
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>  ShowMainServices()),
                 );
                 },
                                 child: Container(
@@ -211,7 +211,7 @@ class _DataEntryState extends State<DataEntry>{
                                     // adding color will hide the splash effect
                                     // color: Colors.blueGrey.shade200,
                                   ),
-                                  child: Text("الخدمات الفرعية",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)),
+                                  child: Text("عرض الخدمات الرئيسية",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)),
                                 ),)
                             ],
                           ),
@@ -335,7 +335,7 @@ class _DataEntryState extends State<DataEntry>{
                                 SizedBox(height: 50,),
                                 InkWell(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ShowSubServices()),
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ShowMainServices()),
                                     );
                                   },
                                   child: Container(
@@ -347,7 +347,7 @@ class _DataEntryState extends State<DataEntry>{
                                       // adding color will hide the splash effect
                                       // color: Colors.blueGrey.shade200,
                                     ),
-                                    child: Text("الخدمات الفرعية",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)
+                                    child: Text("عرض الخدمات الرئيسية",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)
                                     ),
                                   ),)
                               ],
