@@ -3,6 +3,7 @@ import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/description.dart';
 import 'package:mohasabi/mycase.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
@@ -105,7 +106,7 @@ class _SubServicesState extends State<SubServices>{
                                             child: Container(
                                                 child: Image.network(model.imgurl,fit: BoxFit.fill),height: 120),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  Description(model: model,)),);
                                             },
                                           ),
                                           SizedBox(height: 5,),
