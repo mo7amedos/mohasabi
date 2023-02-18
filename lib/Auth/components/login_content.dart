@@ -527,6 +527,7 @@ class _LoginContentState extends State<LoginContent>
       "email": fUser.email,
       "name": fUser.displayName,
       "url": fUser.photoURL,
+      "phone": fUser.phoneNumber,
       "role":"stander"
     });
     await Mohasabi.sharedPreferences.setString("uid", fUser.uid);

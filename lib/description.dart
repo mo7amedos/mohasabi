@@ -1,10 +1,18 @@
+
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Model/services.dart';
+import 'package:mohasabi/mycase.dart';
 
 
+import 'DialogBox/loadingDialog.dart';
 import 'config/NavBar.dart';
 import 'config/config.dart';
 import 'home.dart';
@@ -22,9 +30,11 @@ class Description extends StatefulWidget {
 class _DescriptionState extends State<Description>{
   String type;
   String _selectedValue ;
+  String Userid = Mohasabi.sharedPreferences.get(Mohasabi.userUID).toString();
 
   @override
   Widget build(BuildContext context) {
+
     type =widget.model.type;
     print(_selectedValue);
     Future<bool> _back() async {
@@ -76,7 +86,7 @@ class _DescriptionState extends State<Description>{
                                               dropdownItems.add(
                                                 DropdownMenuItem(
                                                   child: Text(model.name),
-                                                  value: model.id,
+                                                  value: model.name,
                                                 ),
                                               );
                                             }
@@ -187,6 +197,7 @@ class _DescriptionState extends State<Description>{
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("من فضلك اختار الحساب "),));
                             }else{
                               //upload code
+                              uploadFiles();
                             }
                           },
                           child: Container(
@@ -214,4 +225,76 @@ class _DescriptionState extends State<Description>{
       ),
     );  }
 
+  Future uploadFiles() async {
+
+    List files = [];
+
+    List result  = await FilePicker.getMultiFile(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc','xlsx','png'],
+    );
+
+    if (result != null) {
+      for (var file in result) {
+        files.add(file);
+      }
+    }
+    print(files);
+
+    List downloadUrls = await uploadFilesToStorage(files);
+
+    return downloadUrls;
+  }
+
+  Future<List> uploadFilesToStorage(List files) async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return LoadingAlertDialog(message: "برجاء الانتظار......");
+        });
+    List downloadUrls = [];
+    String Requestid =Userid+Random().nextInt(2).toString()+DateTime.now().millisecond.toString();
+
+    for (var file in files) {
+      String fileName = file.path.split('/').last;
+      Reference ref = FirebaseStorage.instance.ref("Requests").child(Requestid).child(fileName);
+      UploadTask uploadTask = ref.putFile(file);
+
+      String downloadUrl = await (await uploadTask).ref.getDownloadURL();
+      downloadUrls.add(downloadUrl);
+    }
+    SaveRequestToFirestore(Requestid,downloadUrls);
+    return downloadUrls;
+  }
+  Future SaveRequestToFirestore(String Requestid,List downloadUrls) async{
+    FirebaseFirestore.instance.collection(Mohasabi.collectionUser).doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
+    collection(Mohasabi.collectionRequests).doc(Requestid).set({
+      "requestid":Requestid,
+      "title":widget.model.title,
+      "idsubservice":widget.model.idsubservice,
+      "price":widget.model.price,
+      "customername":Mohasabi.sharedPreferences.getString(Mohasabi.userName),
+      "customerid":Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
+      "customerphone":Mohasabi.sharedPreferences.getString(Mohasabi.userPhone),
+      "files":downloadUrls,
+      "organization":_selectedValue.toString(),
+    });
+    FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).
+    doc(Requestid).set({
+      "requestid":Requestid,
+      "title":widget.model.title,
+      "idsubservice":widget.model.idsubservice,
+      "price":widget.model.price,
+      "customername":Mohasabi.sharedPreferences.getString(Mohasabi.userName),
+      "customerid":Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
+      "customerphone":Mohasabi.sharedPreferences.getString(Mohasabi.userPhone),
+      "files":downloadUrls,
+      "organization":_selectedValue.toString(),
+    });
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم تسجيل طلبك "),));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
+
+  }
 }

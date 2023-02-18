@@ -246,7 +246,6 @@ class _AddSubServicesState extends State<AddSubServices>{
         : ErrorAlertDialog(message:"برجاء كتابة اسم الخدمة و الوصف");
   }
   Future<void> _selectAndPickImage() async {
-    // ignore: deprecated_member_use
     _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
 
   }

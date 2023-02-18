@@ -28,6 +28,8 @@ class Mohasabi{
   static String collectionSubservices = "subservices";
   static String collectionCompanies ='companies';
   static String collectionIndividuals ='individuals';
+  static String collectionRequests = "requests";
+
 
 
 
