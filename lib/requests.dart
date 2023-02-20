@@ -1,20 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/plans.dart';
-import 'package:mohasabi/training.dart';
 
-import 'Auth/login.dart';
 import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
-import 'info.dart';
 import 'mycase.dart';
-import 'myprofile.dart';
 
 class Requests extends StatefulWidget {
-
   @override
   State<Requests> createState() => _RequestsState();
 }
@@ -35,7 +32,6 @@ class _RequestsState extends State<Requests>{
     });
   }
   int _selectedIndex = 1;
-  Widget _selectedWidget;
   @override
   Widget build(BuildContext context) {
     Future<bool> _back() async {
@@ -71,66 +67,44 @@ class _RequestsState extends State<Requests>{
                   child: Column(
                     children: [
                       SizedBox(height: 10,),
+                      FutureBuilder(
+                        future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser).
+                      doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).collection(Mohasabi.collectionRequests).get(),
+                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                             shrinkWrap: true,
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                RequestModel model = RequestModel.fromJson(snapshot.data.docs[index].data());
+                                return  Container(
+                                  margin: EdgeInsets.only(left: 10,right: 10),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Card(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        ListTile(
+                                          onTap: (){
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase(requestmodel:model)),);
+                                          },
+                                          leading: Icon(Icons.notifications_active_rounded, size: 50,color: AppColors.LightGold),
+                                          title: Text('طلب رقم :'+model.requestid,textDirection: TextDirection.rtl),
+                                          subtitle: Text(model.title,textDirection: TextDirection.rtl),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },),
                       //Card
-                      Container(
-                        margin: EdgeInsets.only(left: 10,right: 10),
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                               ListTile(
-                                 onTap: (){
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
-                                 },
-                                leading: Icon(Icons.notifications_active_rounded, size: 50,color: AppColors.LightGold),
-                                title: Text('طلب رقم : 224588',textDirection: TextDirection.rtl),
-                                subtitle: Text('توكيل عام',textDirection: TextDirection.rtl),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10,right: 10),
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
-                                },
-                                leading: Icon(Icons.notifications_active_rounded, size: 50,color: AppColors.LightGold),
-                                title: Text('طلب رقم : 224588',textDirection: TextDirection.rtl),
-                                subtitle: Text('توكيل عام',textDirection: TextDirection.rtl),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10,right: 10),
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
-                                },
-                                leading: Icon(Icons.notifications_active_rounded, size: 50,color: AppColors.LightGold),
-                                title: Text('طلب رقم : 224588',textDirection: TextDirection.rtl),
-                                subtitle: Text('توكيل عام',textDirection: TextDirection.rtl),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-
 
                     ],
                   ),

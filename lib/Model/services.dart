@@ -101,3 +101,65 @@ class CompanyModel {
   }
 
 }
+
+class RequestModel {
+  String customerid;
+  String customername;
+  String customerphone;
+  String idsubservice;
+  String organization;
+  String price;
+  String requestid;
+  String title;
+  List files;
+  int status;
+
+  RequestModel({
+    this.price,
+    this.idsubservice,
+    this.title,
+    this.customerid,
+    this.customername,
+    this.customerphone,
+    this.organization,
+    this.requestid,
+    this.files,
+    this.status
+  });
+
+  RequestModel.fromJson(Map<String,dynamic>json){
+    price = json['price'];
+    idsubservice = json['idsubservice'];
+    title = json['title'];
+    customerid = json['customerid'];
+    customername = json['customername'];
+    customerphone = json['customerphone'];
+    organization = json['organization'];
+    requestid = json['requestid'];
+    files = List<String>.from(json['files']).toList();
+    status = json['status'];
+
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['requestid'] = this.requestid;
+    data['activity'] = this.organization;
+    data['address'] = this.customerphone;
+    data['type'] = this.customername;
+    data['mobile'] = this.price;
+    data['name'] = this.idsubservice;
+    data['id'] = this.title;
+    data['id'] = this.customerid;
+    data['files'] = this.files;
+    data['status'] = this.status;
+
+
+
+    return data;
+  }
+
+}
+
+

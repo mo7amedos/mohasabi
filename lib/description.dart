@@ -28,14 +28,13 @@ class Description extends StatefulWidget {
 }
 
 class _DescriptionState extends State<Description>{
-  String type;
+  String type ;
   String _selectedValue ;
-  String Userid = Mohasabi.sharedPreferences.get(Mohasabi.userUID).toString();
 
   @override
   Widget build(BuildContext context) {
 
-    type =widget.model.type;
+    type = widget.model.type;
     print(_selectedValue);
     Future<bool> _back() async {
       return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -253,7 +252,8 @@ class _DescriptionState extends State<Description>{
           return LoadingAlertDialog(message: "برجاء الانتظار......");
         });
     List downloadUrls = [];
-    String Requestid =Userid+Random().nextInt(2).toString()+DateTime.now().millisecond.toString();
+    int rand = Random().nextInt(9000000)+1000000;
+    String Requestid =rand.toString();
 
     for (var file in files) {
       String fileName = file.path.split('/').last;
@@ -278,6 +278,7 @@ class _DescriptionState extends State<Description>{
       "customerphone":Mohasabi.sharedPreferences.getString(Mohasabi.userPhone),
       "files":downloadUrls,
       "organization":_selectedValue.toString(),
+      "status":1,
     });
     FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).
     doc(Requestid).set({
@@ -290,6 +291,7 @@ class _DescriptionState extends State<Description>{
       "customerphone":Mohasabi.sharedPreferences.getString(Mohasabi.userPhone),
       "files":downloadUrls,
       "organization":_selectedValue.toString(),
+      "status":1,
     });
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم تسجيل طلبك "),));
