@@ -64,15 +64,17 @@ class _RequestsState extends State<Requests>{
                   centerTitle: true,
                 ),
                 body:  SingleChildScrollView(
+                  physics: ScrollPhysics(),
                   child: Column(
                     children: [
                       SizedBox(height: 10,),
                       FutureBuilder(
                         future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser).
-                      doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).collection(Mohasabi.collectionRequests).get(),
+                      doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).collection(Mohasabi.collectionRequests).orderBy("publishedDate",descending: false).get(),
                         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
                             return ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                              shrinkWrap: true,
                               itemCount: snapshot.data.docs.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -104,8 +106,6 @@ class _RequestsState extends State<Requests>{
                             );
                           }
                         },),
-                      //Card
-
                     ],
                   ),
                 ),

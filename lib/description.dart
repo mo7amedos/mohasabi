@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/mycase.dart';
+import 'package:mohasabi/requests.dart';
 
 
 import 'DialogBox/loadingDialog.dart';
@@ -279,6 +280,7 @@ class _DescriptionState extends State<Description>{
       "files":downloadUrls,
       "organization":_selectedValue.toString(),
       "status":1,
+      "publishedDate": DateTime.now(),
     });
     FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).
     doc(Requestid).set({
@@ -292,11 +294,13 @@ class _DescriptionState extends State<Description>{
       "files":downloadUrls,
       "organization":_selectedValue.toString(),
       "status":1,
+      "publishedDate": DateTime.now(),
     });
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم تسجيل طلبك "),));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم تسجيل طلبك رقم "+Requestid),));
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCase()),);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
 
   }
 }

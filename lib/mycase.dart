@@ -21,7 +21,7 @@ class MyCase extends StatefulWidget {
 }
 
 class _MyCaseState extends State<MyCase>{
-  int activeStep =0;
+  int activeStep = 0;
   String textCase;
 
   @override

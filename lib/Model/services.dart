@@ -103,6 +103,7 @@ class CompanyModel {
 }
 
 class RequestModel {
+  Timestamp publishedDate;
   String customerid;
   String customername;
   String customerphone;
@@ -115,6 +116,7 @@ class RequestModel {
   int status;
 
   RequestModel({
+    this.publishedDate,
     this.price,
     this.idsubservice,
     this.title,
@@ -128,6 +130,7 @@ class RequestModel {
   });
 
   RequestModel.fromJson(Map<String,dynamic>json){
+    publishedDate = json['publishedDate'];
     price = json['price'];
     idsubservice = json['idsubservice'];
     title = json['title'];
@@ -144,6 +147,9 @@ class RequestModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.publishedDate != null) {
+      data['publishedDate'] = this.publishedDate;
+    }
     data['requestid'] = this.requestid;
     data['activity'] = this.organization;
     data['address'] = this.customerphone;
@@ -159,6 +165,23 @@ class RequestModel {
 
     return data;
   }
+
+}
+class PublishedDate {
+  String date;
+
+  PublishedDate({this.date});
+
+  PublishedDate.fromJson(Map<String, dynamic> json) {
+    date = json['$date'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['$date'] = this.date;
+    return data;
+  }
+
 
 }
 
