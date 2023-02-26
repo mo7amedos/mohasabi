@@ -21,6 +21,8 @@ class MyCase extends StatefulWidget {
 }
 
 class _MyCaseState extends State<MyCase>{
+  final TextEditingController _textController = TextEditingController();
+
   int activeStep = 0;
   String textCase;
 
@@ -49,85 +51,139 @@ class _MyCaseState extends State<MyCase>{
       onWillPop: _back,
       child: SafeArea(
         child: Column(
-          children: [
-            Expanded(
-              child: Scaffold(
-                drawer: NavBar(),
-                appBar: AppBar(
-                  iconTheme: IconThemeData(color: AppColors.Black),
-                  backgroundColor: AppColors.White,
-                  title: Text("طلب رقم:"+widget.requestmodel.requestid ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
-                  centerTitle: true,
-                ),
-                body:  SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10,),
-                      Directionality(textDirection: TextDirection.rtl,
-                        child: EasyStepper(
-                        activeStep: activeStep,
-                        lineLength: 20,
-                        stepShape: StepShape.rRectangle,
-                        stepBorderRadius: 15,
-                        borderThickness: 2,
-                        padding: 20,
-                        stepRadius: 28,
-                        finishedStepBorderColor: AppColors.LightGold,
-                        finishedStepTextColor: AppColors.Black,
-                        finishedStepBackgroundColor: AppColors.LightGold,
-                        activeStepIconColor: AppColors.LightGold,
-                        disableScroll: false,
-                        enableStepTapping: false,
-                        lineColor: AppColors.LightGrey,
-                        activeStepBorderColor: AppColors.LightGrey,
-                        activeStepTextColor: AppColors.Black,
-                        unreachedStepBorderColor: AppColors.LightGrey ,
-                        unreachedStepBackgroundColor:  AppColors.LightGrey,
-                        unreachedStepIconColor: AppColors.White ,
-                        unreachedStepTextColor:  AppColors.Black,
-                        steps: const [
-                          EasyStep(
-                            icon: Icon(Icons.add_a_photo_rounded),
-                            title: 'تقديم الاوراق',
-                          ),
-                          EasyStep(
-                            icon: Icon(Icons.rate_review_rounded),
-                            title: 'المراجعة',
-                          ),
-                          EasyStep(
-                            icon: Icon(Icons.payment_rounded),
-                            title: 'دفع جزء من الحساب',
-                          ),
-                          EasyStep(
-                            icon: Icon(Icons.work),
-                            title: 'بدء العمل',
-                          ),
-                          EasyStep(
-                            icon: Icon(Icons.payment_rounded),
-                            title: 'دفع باقي الحساب',
-                          ),
-                          EasyStep(
-                            icon: Icon(Icons.add_task_rounded),
-                            title: 'اكتمل',
-                          ),
-                        ],
-                        onStepReached: (index) => setState(() => activeStep = index),
-                      ),),
-                      SizedBox(height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                          child: Text(textCase,style: TextStyle(fontSize: 20,),textDirection: TextDirection.rtl, ))
-                        ,),
-                    ],
+            children: [
+              Expanded(
+                child: Scaffold(
+                  drawer: NavBar(),
+                  appBar: AppBar(
+                    iconTheme: IconThemeData(color: AppColors.Black),
+                    backgroundColor: AppColors.White,
+                    title: Text("طلب رقم:"+widget.requestmodel.requestid ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
+                    centerTitle: true,
                   ),
+                  body:  Column(
+                      children: [
+                        SizedBox(height: 10,),
+                        Directionality(textDirection: TextDirection.rtl,
+                          child: EasyStepper(
+                          activeStep: activeStep,
+                          lineLength: 20,
+                          stepShape: StepShape.rRectangle,
+                          stepBorderRadius: 15,
+                          borderThickness: 2,
+                          padding: 20,
+                          stepRadius: 28,
+                          finishedStepBorderColor: AppColors.LightGold,
+                          finishedStepTextColor: AppColors.Black,
+                          finishedStepBackgroundColor: AppColors.LightGold,
+                          activeStepIconColor: AppColors.LightGold,
+                          disableScroll: false,
+                          enableStepTapping: false,
+                          lineColor: AppColors.LightGrey,
+                          activeStepBorderColor: AppColors.LightGrey,
+                          activeStepTextColor: AppColors.Black,
+                          unreachedStepBorderColor: AppColors.LightGrey ,
+                          unreachedStepBackgroundColor:  AppColors.LightGrey,
+                          unreachedStepIconColor: AppColors.White ,
+                          unreachedStepTextColor:  AppColors.Black,
+                          steps: const [
+                            EasyStep(
+                              icon: Icon(Icons.add_a_photo_rounded),
+                              title: 'تقديم الاوراق',
+                            ),
+                            EasyStep(
+                              icon: Icon(Icons.rate_review_rounded),
+                              title: 'المراجعة',
+                            ),
+                            EasyStep(
+                              icon: Icon(Icons.payment_rounded),
+                              title: 'دفع جزء من الحساب',
+                            ),
+                            EasyStep(
+                              icon: Icon(Icons.work),
+                              title: 'بدء العمل',
+                            ),
+                            EasyStep(
+                              icon: Icon(Icons.payment_rounded),
+                              title: 'دفع باقي الحساب',
+                            ),
+                            EasyStep(
+                              icon: Icon(Icons.add_task_rounded),
+                              title: 'اكتمل',
+                            ),
+                          ],
+                          onStepReached: (index) => setState(() => activeStep = index),
+                        ),),
+                        SizedBox(
+                          height: 30,
+                        width: MediaQuery.of(context).size.width,
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                            child: Text(textCase,style: TextStyle(fontSize: 20,),textDirection: TextDirection.rtl, ))
+                          ,),
+                        Expanded(child:
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl)),
+                                ),
+                                title: Text(Mohasabi.sharedPreferences.getString(Mohasabi.userName)),
+                                subtitle: Text("_textController.text.toString()"),
+                                trailing: Text(""),
+                              );
+                            },
+                          ),),
+                        Divider(height: 1.0),
+                        Align(
+                          alignment: FractionalOffset.bottomCenter,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: AppColors.White,
+                                borderRadius: BorderRadius.circular(20)
+                              ),
+                              child:Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          controller: _textController,
+                                          decoration: InputDecoration.collapsed(hintText: 'اكتب رسالتك'),
+                                        ),
+                                      ),
+
+                                      IconButton(
+                                        icon: Icon(Icons.send,color: AppColors.LightGold),
+                                        onPressed: () {
+                                          setState(() {
+                                            _textController.clear();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          ),
+                        ),
+                      ],
+                    ),
+
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
 
-      ),
+
     );  }
+
 
 }
