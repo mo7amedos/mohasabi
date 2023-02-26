@@ -7,20 +7,21 @@ import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/requests.dart';
 
 
-import 'config/navbar.dart';
-import 'config/config.dart';
+
+import '../config/NavBar.dart';
+import '../config/config.dart';
 
 
-class MyCase extends StatefulWidget {
+class AdminChat extends StatefulWidget {
   final RequestModel requestmodel;
 
-  const MyCase({Key key, this.requestmodel}) : super(key: key);
+  const AdminChat({Key key, this.requestmodel}) : super(key: key);
 
   @override
-  State<MyCase> createState() => _MyCaseState();
+  State<AdminChat> createState() => _AdminChatState();
 }
 
-class _MyCaseState extends State<MyCase>{
+class _AdminChatState extends State<AdminChat>{
   final TextEditingController _textController = TextEditingController();
   bool isFromMe = false ;
   int activeStep = 0;
@@ -194,7 +195,7 @@ class _MyCaseState extends State<MyCase>{
                                         icon: Icon(Icons.send,color: AppColors.LightGold),
                                         onPressed: () {
                                           _textController.text.isNotEmpty
-                                          ?Sendmsg(widget.requestmodel.requestid)
+                                          ?Sendadminmsg(widget.requestmodel.requestid,widget.requestmodel.customerid)
                                           :null;
                                         },
                                       ),
@@ -206,24 +207,21 @@ class _MyCaseState extends State<MyCase>{
                         ),
                       ],
                     ),
-
                 ),
               )
             ],
           ),
         ),
-
-
-    );  }
-  Future Sendmsg(String requestid ) async {
+    );}
+  Future Sendadminmsg(String requestid,String idto) async {
     String time = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
     doc(requestid).
     collection(Mohasabi.collectionMessages).
     doc(time).set({
       "content": _textController.text.toString(),
-      "idfrom": Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
-      "idto": "admin",
+      "idfrom": "admin",
+      "idto": idto,
       "type": 0,
       "timestamp": time,
     });

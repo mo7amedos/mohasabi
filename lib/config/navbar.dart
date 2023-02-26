@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/Admin/adminrequests.dart';
 import 'package:mohasabi/Admin/dataentry.dart';
+import 'package:mohasabi/chat/adminchat.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/home.dart';
 import 'package:mohasabi/myprofile.dart';
@@ -68,7 +70,7 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.contact_phone_rounded,color: AppColors.LightGold),
             title: Text('تواصل معنا'),
-            onTap: () => null
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminRequests()),),
           ),
           Divider(),
           ListTile(

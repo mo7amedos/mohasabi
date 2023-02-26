@@ -184,5 +184,38 @@ class PublishedDate {
 
 
 }
+class Messages {
+  String content;
+  String idfrom;
+  String idto;
+  int type;
+  String timestamp;
+
+  Messages(
+      this.type,
+      this.content,
+      this.idfrom,
+      this.idto,
+      this.timestamp
+      );
+  Messages.fromJson(Map<String,dynamic>json){
+    type = json['type'];
+    content = json['content'];
+    idfrom = json['idfrom'];
+    idto = json['idto'];
+    timestamp = json['timestamp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['type'] = this.type;
+    data['content'] = this.content;
+    data['idfrom'] = this.idfrom;
+    data['idto'] = this.idto;
+    data['timestamp'] = this.timestamp;
+
+    return data;
+  }
+}
 
 
