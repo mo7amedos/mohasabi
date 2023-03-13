@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Model/services.dart';
+import 'package:mohasabi/chat/supportrequest.dart';
 import 'package:mohasabi/home.dart';
 import 'package:mohasabi/requests.dart';
 
@@ -13,7 +14,9 @@ import '../config/config.dart';
 
 
 class Chat extends StatefulWidget {
+final String chatid;
 
+  const Chat({Key key, this.chatid}) : super(key: key);
 
   @override
   State<Chat> createState() => _ChatState();
@@ -25,7 +28,7 @@ class _ChatState extends State<Chat>{
   @override
   Widget build(BuildContext context) {
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => SupportRequests()));
     }
     return WillPopScope(
       onWillPop: _back,
@@ -46,9 +49,9 @@ class _ChatState extends State<Chat>{
                     SizedBox(height: 10,),
                     Expanded(
                         child: StreamBuilder(
-                          stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
-                          doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
-                          collection(Mohasabi.collectionMessages).snapshots(),
+                          stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).doc(Mohasabi.collectionSupport).
+                          collection(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
+                          doc(widget.chatid).collection(Mohasabi.collectionMessages).snapshots(),
                           builder: (context,snapshot){
                             if (!snapshot.hasData) {
                               return Center(
@@ -141,9 +144,9 @@ class _ChatState extends State<Chat>{
   Future Sendmsg( ) async {
     String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
-    doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
-    collection(Mohasabi.collectionMessages).
-    doc(timestamp).set({
+        doc(Mohasabi.collectionSupport).collection(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
+    doc(widget.chatid).collection(Mohasabi.collectionMessages).doc(timestamp).
+   set({
       "content": _textController.text.toString(),
       "idfrom": Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
       "idto": "admin",

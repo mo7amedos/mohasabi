@@ -30,6 +30,7 @@ class Mohasabi{
   static String collectionIndividuals ='individuals';
   static String collectionRequests = "requests";
   static String collectionMessages = "messages";
+  static String collectionSupport = "support";
 
 
 

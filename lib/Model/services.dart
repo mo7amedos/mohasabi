@@ -185,6 +185,8 @@ class PublishedDate {
 
 }
 class Messages {
+  String chatid;
+  String title;
   String content;
   String idfrom;
   String idto;
@@ -196,7 +198,9 @@ class Messages {
       this.content,
       this.idfrom,
       this.idto,
-      this.timestamp
+      this.timestamp,
+      this.title,
+      this.chatid
       );
   Messages.fromJson(Map<String,dynamic>json){
     type = json['type'];
@@ -204,6 +208,9 @@ class Messages {
     idfrom = json['idfrom'];
     idto = json['idto'];
     timestamp = json['timestamp'];
+    title = json['title'];
+    chatid = json['chatid'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -213,6 +220,8 @@ class Messages {
     data['idfrom'] = this.idfrom;
     data['idto'] = this.idto;
     data['timestamp'] = this.timestamp;
+    data['title'] = this.title;
+    data['chatid'] = this.chatid;
 
     return data;
   }

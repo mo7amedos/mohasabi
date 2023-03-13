@@ -15,6 +15,7 @@ import 'package:mohasabi/subservices.dart';
 import 'package:mohasabi/training.dart';
 
 
+import 'chat/supportrequest.dart';
 import 'info.dart';
 import 'config/navbar.dart';
 
@@ -86,7 +87,7 @@ class _HomeState extends State<Home> {
                 child: Scaffold(
                   floatingActionButton: FloatingActionButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  Chat()),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  SupportRequests()),
                       );
                     },
                     backgroundColor: AppColors.LightGold,
