@@ -31,6 +31,9 @@ class Mohasabi{
   static String collectionRequests = "requests";
   static String collectionMessages = "messages";
   static String collectionSupport = "support";
+  static String collectionSupportMessages = "supportmessages";
+  static String collectionCase = "case";
+
 
 
 

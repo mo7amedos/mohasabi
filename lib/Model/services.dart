@@ -151,18 +151,45 @@ class RequestModel {
       data['publishedDate'] = this.publishedDate;
     }
     data['requestid'] = this.requestid;
-    data['activity'] = this.organization;
-    data['address'] = this.customerphone;
-    data['type'] = this.customername;
-    data['mobile'] = this.price;
-    data['name'] = this.idsubservice;
-    data['id'] = this.title;
-    data['id'] = this.customerid;
+    data['organization'] = this.organization;
+    data['customerphone'] = this.customerphone;
+    data['customername'] = this.customername;
+    data['price'] = this.price;
+    data['idsubservice'] = this.idsubservice;
+    data['title'] = this.title;
+    data['customerid'] = this.customerid;
     data['files'] = this.files;
     data['status'] = this.status;
 
 
 
+    return data;
+  }
+
+}
+class MessageSupportModel {
+  String customerid;
+  String customername;
+  String chatid;
+
+
+  MessageSupportModel({
+    this.customerid,
+    this.customername,
+    this.chatid
+  });
+
+  MessageSupportModel.fromJson(Map<String,dynamic>json){
+    customerid = json['customerid'];
+    customername = json['customername'];
+    chatid = json['chatid'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['customername'] = this.customername;
+    data['customerid'] = this.customerid;
+    data['chatid'] = this.chatid;
     return data;
   }
 

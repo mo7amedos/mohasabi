@@ -7,43 +7,26 @@ import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/requests.dart';
 
 
-import 'config/navbar.dart';
-import 'config/config.dart';
+
+import '../config/NavBar.dart';
+import '../config/config.dart';
 
 
-class MyCase extends StatefulWidget {
-  final RequestModel requestmodel;
+class AdminSupportChat extends StatefulWidget {
+  final MessageSupportModel messageSupportModel;
 
-  const MyCase({Key key, this.requestmodel}) : super(key: key);
+  const AdminSupportChat({Key key, this.messageSupportModel}) : super(key: key);
 
   @override
-  State<MyCase> createState() => _MyCaseState();
+  State<AdminSupportChat> createState() => _AdminSupportChatState();
 }
 
-class _MyCaseState extends State<MyCase>{
+class _AdminSupportChatState extends State<AdminSupportChat>{
   final TextEditingController _textController = TextEditingController();
   bool isFromMe = false ;
-  int activeStep = 0;
-  String textCase;
   String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
   @override
   Widget build(BuildContext context) {
-    activeStep = widget.requestmodel.status;
-    if(activeStep==0){
-      textCase = "برجاء تقديم الاوراق المطلوبة";
-    }else if(activeStep==1){
-      textCase = "تم تقديم الملفات و جاري المراجعة";
-    }
-    else if(activeStep==2){
-      textCase = "برجاء دفع جزء من الحساب و انتظار التاكيد";
-    }
-    else if(activeStep==3){
-      textCase = "جاري العمل علي طلبكم و سوف يتمم التواصل معك فور انتهاء المطلوب";
-    }else if(activeStep==4){
-      textCase = "برجاء دفع الباقي من الحساب لاستلام الملفات المطلوبة";
-    } else if(activeStep==5){
-      textCase = "تمت العملية بنجاح";
-  }
     Future<bool> _back() async {
       return await Navigator.push(context, MaterialPageRoute(builder: (context) => Requests()));
     }
@@ -58,74 +41,17 @@ class _MyCaseState extends State<MyCase>{
                   appBar: AppBar(
                     iconTheme: IconThemeData(color: AppColors.Black),
                     backgroundColor: AppColors.White,
-                    title: Text("طلب رقم:"+widget.requestmodel.requestid ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
+                    title: Text("طلب رقم:"+widget.messageSupportModel.chatid ,style: TextStyle(color: AppColors.Black,fontSize: 25, fontWeight: FontWeight.bold),),
                     centerTitle: true,
                   ),
                   body:  Column(
                       children: [
                         SizedBox(height: 10,),
-                        Directionality(textDirection: TextDirection.rtl,
-                          child: EasyStepper(
-                          activeStep: activeStep,
-                          lineLength: 20,
-                          stepShape: StepShape.rRectangle,
-                          stepBorderRadius: 15,
-                          borderThickness: 2,
-                          padding: 20,
-                          stepRadius: 28,
-                          finishedStepBorderColor: AppColors.LightGold,
-                          finishedStepTextColor: AppColors.Black,
-                          finishedStepBackgroundColor: AppColors.LightGold,
-                          activeStepIconColor: AppColors.LightGold,
-                          disableScroll: false,
-                          enableStepTapping: false,
-                          lineColor: AppColors.LightGrey,
-                          activeStepBorderColor: AppColors.LightGrey,
-                          activeStepTextColor: AppColors.Black,
-                          unreachedStepBorderColor: AppColors.LightGrey ,
-                          unreachedStepBackgroundColor:  AppColors.LightGrey,
-                          unreachedStepIconColor: AppColors.White ,
-                          unreachedStepTextColor:  AppColors.Black,
-                          steps: const [
-                            EasyStep(
-                              icon: Icon(Icons.add_a_photo_rounded),
-                              title: 'تقديم الاوراق',
-                            ),
-                            EasyStep(
-                              icon: Icon(Icons.rate_review_rounded),
-                              title: 'المراجعة',
-                            ),
-                            EasyStep(
-                              icon: Icon(Icons.payment_rounded),
-                              title: 'دفع جزء من الحساب',
-                            ),
-                            EasyStep(
-                              icon: Icon(Icons.work),
-                              title: 'بدء العمل',
-                            ),
-                            EasyStep(
-                              icon: Icon(Icons.payment_rounded),
-                              title: 'دفع باقي الحساب',
-                            ),
-                            EasyStep(
-                              icon: Icon(Icons.add_task_rounded),
-                              title: 'اكتمل',
-                            ),
-                          ],
-                          onStepReached: (index) => setState(() => activeStep = index),
-                        ),),
-                        SizedBox(
-                          height: 30,
-                        width: MediaQuery.of(context).size.width,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                            child: Text(textCase,style: TextStyle(fontSize: 20,),textDirection: TextDirection.rtl, ))
-                          ,),
                         Expanded(
                             child: StreamBuilder(
-                              stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).doc(Mohasabi.collectionCase)
-                                  .collection(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
-                              doc(widget.requestmodel.requestid).
+                              stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
+                              doc(Mohasabi.collectionSupport).collection(widget.messageSupportModel.customerid).
+                              doc(widget.messageSupportModel.chatid).
                               collection(Mohasabi.collectionMessages).snapshots(),
                               builder: (context,snapshot){
                                 if (!snapshot.hasData) {
@@ -195,7 +121,7 @@ class _MyCaseState extends State<MyCase>{
                                         icon: Icon(Icons.send,color: AppColors.LightGold),
                                         onPressed: () {
                                           _textController.text.isNotEmpty
-                                          ?Sendmsg(widget.requestmodel.requestid)
+                                          ?Sendadminmsg(widget.messageSupportModel.chatid,widget.messageSupportModel.customerid)
                                           :null;
                                         },
                                       ),
@@ -207,25 +133,21 @@ class _MyCaseState extends State<MyCase>{
                         ),
                       ],
                     ),
-
                 ),
               )
             ],
           ),
         ),
-
-
-    );  }
-  Future Sendmsg(String requestid ) async {
+    );}
+  Future Sendadminmsg(String requestid,String idto) async {
     String time = DateTime.now().millisecondsSinceEpoch.toString();
-    FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
-        doc(Mohasabi.collectionCase).collection(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).
-    doc(requestid).
+    FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).doc(Mohasabi.collectionSupport)
+        .collection(idto).doc(requestid).
     collection(Mohasabi.collectionMessages).
     doc(time).set({
       "content": _textController.text.toString(),
-      "idfrom": Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
-      "idto": "admin",
+      "idfrom": "admin",
+      "idto": idto,
       "type": 0,
       "timestamp": time,
     });

@@ -125,6 +125,7 @@ class _AdminChatState extends State<AdminChat>{
                         Expanded(
                             child: StreamBuilder(
                               stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
+                              doc(Mohasabi.collectionCase).collection(widget.requestmodel.customerid).
                               doc(widget.requestmodel.requestid).
                               collection(Mohasabi.collectionMessages).snapshots(),
                               builder: (context,snapshot){
@@ -215,7 +216,7 @@ class _AdminChatState extends State<AdminChat>{
     );}
   Future Sendadminmsg(String requestid,String idto) async {
     String time = DateTime.now().millisecondsSinceEpoch.toString();
-    FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
+    FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).doc(idto).collection(Mohasabi.collectionMessages).
     doc(requestid).
     collection(Mohasabi.collectionMessages).
     doc(time).set({

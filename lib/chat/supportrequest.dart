@@ -165,6 +165,13 @@ class _SupportRequestsState extends State<SupportRequests>{
       "title": _tiltleTextEditingController.text.toString(),
       "chatid":timestamp
     });
+    FirebaseFirestore.instance.collection(Mohasabi.collectionSupportMessages).
+    doc(timestamp).
+    set({
+      "customerid": Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
+      "customername":Mohasabi.sharedPreferences.getString(Mohasabi.userName),
+      "chatid":timestamp
+    });
     setState(() {
       _tiltleTextEditingController.clear();
       timestamp=DateTime.now().millisecondsSinceEpoch.toString();
