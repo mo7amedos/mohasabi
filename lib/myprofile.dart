@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/DialogBox/loadingDialog.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
+import 'package:mohasabi/widgets/custom_button.dart';
 
 import 'Auth/login.dart';
+import 'widgets/customTextField.dart';
 import 'config/navbar.dart';
 import 'config/config.dart';
 import 'home.dart';
@@ -17,7 +22,10 @@ class MyProfile extends StatefulWidget {
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
-
+ GlobalKey<FormState> _myinfoformKey = GlobalKey<FormState>();
+final TextEditingController _nameTextEditingController = TextEditingController();
+final TextEditingController _mobileTextEditingController = TextEditingController();
+final TextEditingController _emailTextEditingController = TextEditingController();
 class _MyProfileState extends State<MyProfile>{
   void onPressed(index) {
     setState(() {
@@ -36,9 +44,16 @@ class _MyProfileState extends State<MyProfile>{
   }
 
   int _selectedIndex = 1;
-  Widget _selectedWidget;
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _nameTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userName);
+      _mobileTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userPhone);
+      _emailTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userEmail);
+    });
+    var size = MediaQuery.of(context).size;
+    String _name,_mobile,_email;
+
     Future<bool> _back() async {
       return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }
@@ -92,15 +107,63 @@ class _MyProfileState extends State<MyProfile>{
                   ),
                   body:  TabBarView(
                     children: [
+                      //بياناتي
                       SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 40,),
-                            Text("صفحه الملف الشخصي",style: TextStyle(fontSize: 50),)
+                  child: Form(
+                    key: _myinfoformKey,
+                    child: Column(
+                            children: [
+                              //الصورة
+                              /*InkWell(
+                                onTap: () {
+                                  _selectAndPickImage();
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: AppColors.LightGold,
+                                  backgroundImage: _imageFile == null ? null : FileImage(_imageFile),
+                                  child: _imageFile ==null ? Icon(Icons.add_photo_alternate,size: size.width*0.15,color: AppColors.LightGold,):
+                                  null,
+                                ) ,
+                              ),*/
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: size.height * 0.18,
+                                  child: CircleAvatar(
+                                    backgroundColor: AppColors.DarkGold,
+                                    radius: 150,
+                                    child: CircleAvatar(
+                                      radius: 70,
+                                      backgroundImage: Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl) == null ?
+                                      AssetImage('assets/images/add.png'):
+                                      NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl),),
+                                    ),
+                                  ),
+                                ),
+                              ),
 
-                          ],
-                        ),
+                              //الاسم
+                              CustomTextField(controller: _nameTextEditingController,icon: Icons.person_outline_rounded,hintText: "الاسم",onsave: _name),
+
+                              //الهاتف
+                              CustomTextField(controller: _mobileTextEditingController,icon: Icons.phone,hintText: "الهاتف",onsave: _mobile),
+
+                              //الايميل
+                              CustomTextField(controller: _emailTextEditingController,icon: Icons.email_rounded,hintText: "البريد الالكتروني",onsave: _email),
+
+                              //تحديث
+                              CustomButton(onPress: (){
+                                if(_myinfoformKey.currentState.validate()){
+                                  _myinfoformKey.currentState.save();
+                                  updateUserInfoToFirestore();
+                                }
+                              },text: "تحديث",)
+                            ],
+                          ),
+                  ),
                       ),
+                      //شركات
                       SingleChildScrollView(
                         child: Column(
                           children: [
@@ -110,6 +173,7 @@ class _MyProfileState extends State<MyProfile>{
                           ],
                         ),
                       ),
+                      //افراد
                       SingleChildScrollView(
                         child: Column(
                           children: [
@@ -130,4 +194,16 @@ class _MyProfileState extends State<MyProfile>{
       ),
     );  }
 
+  Future updateUserInfoToFirestore() async {
+    FirebaseFirestore.instance.collection("users").doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).update({
+      "email": _emailTextEditingController.text.toString(),
+      "name": _nameTextEditingController.text.toString(),
+      "phone":_mobileTextEditingController.text.trim(),
+    });
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, _emailTextEditingController.text.toString());
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userName, _nameTextEditingController.text.trim());
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, _mobileTextEditingController.text.trim());
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("تم التحديث بنجاح"),));
+
+  }
 }

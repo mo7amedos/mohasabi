@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Admin/adminrequests.dart';
@@ -9,6 +10,7 @@ import 'package:mohasabi/myprofile.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
+import '../Auth/login.dart';
 import '../info.dart';
 
 
@@ -72,6 +74,7 @@ class NavBar extends StatelessWidget {
             title: Text('تواصل معنا'),
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminRequests()),),
           ),
+
           Divider(),
           ListTile(
             title: Text('الخروج'),
@@ -101,6 +104,17 @@ class NavBar extends StatelessWidget {
                 ),
             ),
           ),
+          ListTile(
+            title: Text('تسجيل خروج'),
+            leading: Icon(Icons.logout_rounded,color: AppColors.LightGold),
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Mohasabi.sharedPreferences.clear();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  Login()),);
+            }
+
+          ),
+
         ],
       ),
     );

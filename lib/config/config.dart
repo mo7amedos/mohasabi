@@ -36,9 +36,6 @@ class Mohasabi{
 
 
 
-
-
-
   static final String userName = 'name';
   static final String userEmail = 'email';
   static final String userUID = 'uid';

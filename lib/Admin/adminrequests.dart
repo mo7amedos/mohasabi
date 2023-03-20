@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/chat/adminchat.dart';
 import 'package:mohasabi/chat/adminsupportchat.dart';
-import 'package:mohasabi/plans.dart';
 
-import '../chat/chat.dart';
 import '../config/NavBar.dart';
 import '../config/config.dart';
 import '../home.dart';
@@ -114,7 +111,7 @@ class _AdminRequestsState extends State<AdminRequests>{
                           children: [
                             SizedBox(height: 10,),
                             FutureBuilder(
-                              future: FirebaseFirestore.instance.collection(Mohasabi.collectionSupportMessages).get(),
+                              future: FirebaseFirestore.instance.collection(Mohasabi.collectionSupportMessages).orderBy("publishedDate",descending: true).get(),
                               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                 if (snapshot.hasData) {
                                   return ListView.builder(
@@ -150,43 +147,6 @@ class _AdminRequestsState extends State<AdminRequests>{
                                   );
                                 }
                               },),
-                            /*FutureBuilder(
-                    future: FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).get(),
-                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Messages model = Messages.fromJson(snapshot.data.docs[index].data());
-                            return  Container(
-                              margin: EdgeInsets.only(left: 10,right: 10),
-                              width: MediaQuery.of(context).size.width,
-                              child: Card(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ListTile(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Chat()),);
-                                      },
-                                      leading: Icon(Icons.chat_rounded, size: 50,color: AppColors.LightGold),
-                                      title: Text('طلب دعم',textDirection: TextDirection.rtl),
-                                      subtitle: Text("",textDirection: TextDirection.rtl),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },),*/
                           ],
                         ),
                       ),

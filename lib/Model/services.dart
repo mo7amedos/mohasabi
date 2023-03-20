@@ -52,7 +52,6 @@ ServicesModel.fromJson(Map<String,dynamic>json){
   }
 
 }
-
 class CompanyModel {
   String name;
   String mobile;
@@ -101,7 +100,6 @@ class CompanyModel {
   }
 
 }
-
 class RequestModel {
   Timestamp publishedDate;
   String customerid;

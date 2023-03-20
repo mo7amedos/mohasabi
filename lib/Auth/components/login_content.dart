@@ -528,14 +528,14 @@ class _LoginContentState extends State<LoginContent>
       "name": fUser.displayName,
       "url": fUser.photoURL,
       "phone": fUser.phoneNumber,
-      "role":"stander"
+      "role":"customer"
     });
     await Mohasabi.sharedPreferences.setString("uid", fUser.uid);
     await Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, fUser.email);
     await Mohasabi.sharedPreferences.setString(Mohasabi.userName, fUser.displayName);
     await Mohasabi.sharedPreferences.setString(Mohasabi.userAvatarUrl, fUser.photoURL);
     await Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, fUser.phoneNumber);
-    await Mohasabi.sharedPreferences.setString(Mohasabi.userRole, "stander");
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userRole, "customer");
 
   }
 }

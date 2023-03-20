@@ -127,7 +127,6 @@ class _SignupState extends State<Signup>{
                                   ),
                                 ),
                               ),
-
                             ),
                             Align(
                                 alignment: Alignment.bottomCenter,
@@ -200,10 +199,12 @@ class _SignupState extends State<Signup>{
       "uid": fUser.uid,
       "email": fUser.email,
       "name": _nameTextEditingController.text.trim(),
-      "phone":_mobileTextEditingController.text.trim()
+      "phone":_mobileTextEditingController.text.trim(),
+      "role":"customer"
     });
     await Mohasabi.sharedPreferences.setString("uid", fUser.uid);
     await Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, fUser.email);
+    await Mohasabi.sharedPreferences.setString(Mohasabi.userRole, "customer");
     await Mohasabi.sharedPreferences.setString(Mohasabi.userName, _nameTextEditingController.text.trim());
     await Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, _mobileTextEditingController.text.trim());
   }

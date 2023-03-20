@@ -170,7 +170,8 @@ class _SupportRequestsState extends State<SupportRequests>{
     set({
       "customerid": Mohasabi.sharedPreferences.getString(Mohasabi.userUID),
       "customername":Mohasabi.sharedPreferences.getString(Mohasabi.userName),
-      "chatid":timestamp
+      "chatid":timestamp,
+      "publishedDate":DateTime.now()
     });
     setState(() {
       _tiltleTextEditingController.clear();
