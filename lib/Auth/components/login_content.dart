@@ -245,10 +245,12 @@ class _LoginContentState extends State<LoginContent>
       padding: const EdgeInsets.symmetric(horizontal: 135, vertical: 16),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Training()),
-          );
+           Mohasabi.sharedPreferences.setString("uid", "Yupk29TqMVTfSWTiL1OhbEOUsup2");
+           Mohasabi.sharedPreferences.setString(Mohasabi.userEmail, "guest@mohasabi.com");
+           Mohasabi.sharedPreferences.setString(Mohasabi.userRole, "customer");
+           Mohasabi.sharedPreferences.setString(Mohasabi.userName, "ضيف");
+           Mohasabi.sharedPreferences.setString(Mohasabi.userPhone, "123456789");
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Training()),);
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),

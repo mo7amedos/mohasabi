@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/DialogBox/loadingDialog.dart';
+import 'package:mohasabi/addcompany.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
@@ -22,7 +23,6 @@ class MyProfile extends StatefulWidget {
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
- GlobalKey<FormState> _myinfoformKey = GlobalKey<FormState>();
 final TextEditingController _nameTextEditingController = TextEditingController();
 final TextEditingController _mobileTextEditingController = TextEditingController();
 final TextEditingController _emailTextEditingController = TextEditingController();
@@ -42,10 +42,13 @@ class _MyProfileState extends State<MyProfile>{
       }
     });
   }
+  GlobalKey<FormState> _myinfoformKey = GlobalKey<FormState>();
 
+  bool addCompany = false;
   int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
+
     setState(() {
       _nameTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userName);
       _mobileTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userPhone);
@@ -114,17 +117,6 @@ class _MyProfileState extends State<MyProfile>{
                     child: Column(
                             children: [
                               //الصورة
-                              /*InkWell(
-                                onTap: () {
-                                  _selectAndPickImage();
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor: AppColors.LightGold,
-                                  backgroundImage: _imageFile == null ? null : FileImage(_imageFile),
-                                  child: _imageFile ==null ? Icon(Icons.add_photo_alternate,size: size.width*0.15,color: AppColors.LightGold,):
-                                  null,
-                                ) ,
-                              ),*/
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
@@ -135,9 +127,8 @@ class _MyProfileState extends State<MyProfile>{
                                     radius: 150,
                                     child: CircleAvatar(
                                       radius: 70,
-                                      backgroundImage: Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl) == null ?
-                                      AssetImage('assets/images/add.png'):
-                                      NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl),),
+                                      backgroundImage: NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl)
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -164,13 +155,14 @@ class _MyProfileState extends State<MyProfile>{
                   ),
                       ),
                       //شركات
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 40,),
-                            Text("لا يوجد شركات",style: TextStyle(fontSize: 50),)
-
-                          ],
+                      Scaffold(
+                        floatingActionButton: FloatingActionButton(
+                            heroTag: 'uniqueTag',
+                            backgroundColor: AppColors.LightGold,
+                            child: addCompany==false? Icon(Icons.add,color: AppColors.White):Icon(Icons.account_balance_sharp,color: AppColors.White),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(),));
+                            }
                         ),
                       ),
                       //افراد

@@ -26,8 +26,8 @@ class Mohasabi{
   static String collectionAdimn = "admins";
   static String collectionServices = "services";
   static String collectionSubservices = "subservices";
-  static String collectionCompanies ='companies';
-  static String collectionIndividuals ='individuals';
+  static String collectionCompany ='company';
+  static String collectionIndividual ='individual';
   static String collectionRequests = "requests";
   static String collectionMessages = "messages";
   static String collectionSupport = "support";
