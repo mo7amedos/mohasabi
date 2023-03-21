@@ -10,7 +10,7 @@ import 'config/NavBar.dart';
 import 'config/config.dart';
 import 'home.dart';
 import 'info.dart';
-import 'myprofile.dart';
+import 'Auth/myprofile.dart';
 
 class Plans extends StatefulWidget {
 

@@ -54,33 +54,37 @@ ServicesModel.fromJson(Map<String,dynamic>json){
 }
 class CompanyModel {
   String name;
-  String mobile;
+  String phone;
   String address;
   String activity;
   String type;
   String email;
   String id;
+  String category;
+  String category2;
 
   CompanyModel({
     this.activity,
     this.address,
-    this.mobile,
+    this.phone,
     this.name,
     this.type,
     this.email,
-    this.id
+    this.id,
+    this.category,
+    this.category2
   });
 
   CompanyModel.fromJson(Map<String,dynamic>json){
     name = json['name'];
     type = json['type'];
-    mobile = json['mobile'];
+    phone = json['phone'];
     address = json['address'];
     activity = json['activity'];
     email = json['email'];
     id = json['id'];
-
-
+    category = json['category'];
+    category2 = json['category2'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,12 +93,11 @@ class CompanyModel {
     data['activity'] = this.activity;
     data['address'] = this.address;
     data['type'] = this.type;
-    data['mobile'] = this.mobile;
+    data['phone'] = this.phone;
     data['name'] = this.name;
     data['id'] = this.id;
-
-
-
+    data['category'] = this.category;
+    data['category2'] = this.category2;
 
     return data;
   }

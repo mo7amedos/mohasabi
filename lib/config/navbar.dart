@@ -6,7 +6,7 @@ import 'package:mohasabi/Admin/dataentry.dart';
 import 'package:mohasabi/chat/adminchat.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/home.dart';
-import 'package:mohasabi/myprofile.dart';
+import 'package:mohasabi/Auth/myprofile.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
 
@@ -46,7 +46,7 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.account_circle_rounded,color: AppColors.LightGold),
             title: Text('البيانات الشخصية'),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile()),),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyProfile(tabNo: 0,)),),
           ),
           ListTile(
             leading: Icon(Icons.notifications,color: AppColors.LightGold),

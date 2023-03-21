@@ -9,7 +9,7 @@ import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/chat/chat.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:mohasabi/mycase.dart';
-import 'package:mohasabi/myprofile.dart';
+import 'package:mohasabi/Auth/myprofile.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/subservices.dart';

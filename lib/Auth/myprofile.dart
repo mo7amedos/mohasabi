@@ -1,25 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mohasabi/DialogBox/loadingDialog.dart';
-import 'package:mohasabi/addcompany.dart';
+import 'package:mohasabi/Auth/addcompany.dart';
+import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
-import 'package:mohasabi/training.dart';
 import 'package:mohasabi/widgets/custom_button.dart';
 
-import 'Auth/login.dart';
-import 'widgets/customTextField.dart';
-import 'config/navbar.dart';
-import 'config/config.dart';
-import 'home.dart';
-import 'info.dart';
+import '../widgets/customTextField.dart';
+import '../config/navbar.dart';
+import '../config/config.dart';
+import '../home.dart';
 
 class MyProfile extends StatefulWidget {
 
+  final int tabNo;
+
+  const MyProfile({Key key, this.tabNo}) : super(key: key);
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
@@ -43,16 +42,23 @@ class _MyProfileState extends State<MyProfile>{
     });
   }
   GlobalKey<FormState> _myinfoformKey = GlobalKey<FormState>();
-
   bool addCompany = false;
   int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
-
     setState(() {
       _nameTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userName);
-      _mobileTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userPhone);
       _emailTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userEmail);
+      if(Mohasabi.sharedPreferences.getString(Mohasabi.userPhone).isEmpty){
+        FirebaseFirestore.instance.collection(Mohasabi.collectionUser).
+        doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).get().then(
+            (value){
+              _mobileTextEditingController..text=value["phone"];
+            }
+        );
+      }else{
+        _mobileTextEditingController..text=Mohasabi.sharedPreferences.getString(Mohasabi.userPhone);
+      }
     });
     var size = MediaQuery.of(context).size;
     String _name,_mobile,_email;
@@ -67,7 +73,7 @@ class _MyProfileState extends State<MyProfile>{
           children: [
             Expanded(
               child: DefaultTabController(
-                initialIndex: 0,
+                initialIndex: widget.tabNo,
                 length: 3,
                 child: Scaffold(
                   drawer: NavBar(),
@@ -159,10 +165,59 @@ class _MyProfileState extends State<MyProfile>{
                         floatingActionButton: FloatingActionButton(
                             heroTag: 'uniqueTag',
                             backgroundColor: AppColors.LightGold,
-                            child: addCompany==false? Icon(Icons.add,color: AppColors.White):Icon(Icons.account_balance_sharp,color: AppColors.White),
+                            child: Icon(Icons.add,color: AppColors.White),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(Add: true),));
                             }
+                        ),
+                        body: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  child: Text("شركاتي", style: TextStyle(fontSize: 25))),
+                              SizedBox(height: 10,),
+                              FutureBuilder(
+                                future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser)
+                                    .doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID))
+                                    .collection(Mohasabi.collectionCompany).get(),
+                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.docs.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        CompanyModel model = CompanyModel.fromJson(snapshot.data.docs[index].data());
+                                        return  Container(
+                                          margin: EdgeInsets.only(left: 10,right: 10),
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Card(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  onTap: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddCompany(Add: false,model: model,)));
+                                                    },
+                                                  leading: Icon(Icons.account_balance_sharp, size: 50,color: AppColors.LightGold),
+                                                  title: Text(model.name,textDirection: TextDirection.rtl),
+                                                  subtitle: Text(model.address,textDirection: TextDirection.rtl),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },),
+                            ],
+                          ),
                         ),
                       ),
                       //افراد

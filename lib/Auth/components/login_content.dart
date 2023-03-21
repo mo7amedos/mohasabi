@@ -13,7 +13,7 @@ import 'package:mohasabi/training.dart';
 import '../../DialogBox/errorDialog.dart';
 import '../../DialogBox/loadingDialog.dart';
 import '../../config/config.dart';
-import '../../myprofile.dart';
+import '../myprofile.dart';
 import '../utils/constants.dart';
 import '../utils/helper_functions.dart';
 import '../animations/change_screen_animation.dart';

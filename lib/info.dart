@@ -1,7 +1,7 @@
 import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mohasabi/myprofile.dart';
+import 'package:mohasabi/Auth/myprofile.dart';
 import 'package:mohasabi/plans.dart';
 import 'package:mohasabi/requests.dart';
 import 'package:mohasabi/training.dart';
