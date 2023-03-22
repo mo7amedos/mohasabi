@@ -103,6 +103,50 @@ class CompanyModel {
   }
 
 }
+class IndividualModel {
+  String name;
+  String phone;
+  String email;
+  String address;
+  String officename;
+  String type;
+  String id;
+
+
+  IndividualModel({
+    this.officename,
+    this.address,
+    this.phone,
+    this.name,
+    this.type,
+    this.email,
+    this.id,
+  });
+
+  IndividualModel.fromJson(Map<String,dynamic>json){
+    name = json['name'];
+    type = json['type'];
+    phone = json['phone'];
+    address = json['address'];
+    officename = json['officename'];
+    email = json['email'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['officename'] = this.officename;
+    data['address'] = this.address;
+    data['type'] = this.type;
+    data['phone'] = this.phone;
+    data['name'] = this.name;
+    data['id'] = this.id;
+
+    return data;
+  }
+
+}
 class RequestModel {
   Timestamp publishedDate;
   String customerid;

@@ -62,7 +62,6 @@ class _MyProfileState extends State<MyProfile>{
     });
     var size = MediaQuery.of(context).size;
     String _name,_mobile,_email;
-
     Future<bool> _back() async {
       return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }
@@ -167,7 +166,7 @@ class _MyProfileState extends State<MyProfile>{
                             backgroundColor: AppColors.LightGold,
                             child: Icon(Icons.add,color: AppColors.White),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(Add: true),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(Add: true,isCompany: true),));
                             }
                         ),
                         body: SingleChildScrollView(
@@ -198,7 +197,7 @@ class _MyProfileState extends State<MyProfile>{
                                               children: <Widget>[
                                                 ListTile(
                                                   onTap: (){
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddCompany(Add: false,model: model,)));
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddCompany(Add: false,companyModel: model,isCompany: true,)));
                                                     },
                                                   leading: Icon(Icons.account_balance_sharp, size: 50,color: AppColors.LightGold),
                                                   title: Text(model.name,textDirection: TextDirection.rtl),
@@ -221,13 +220,63 @@ class _MyProfileState extends State<MyProfile>{
                         ),
                       ),
                       //افراد
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 40,),
-                            Text("لا يوجد افراد",style: TextStyle(fontSize: 50),)
-
-                          ],
+                      Scaffold(
+                        floatingActionButton: FloatingActionButton(
+                            heroTag: 'uniqueTag',
+                            backgroundColor: AppColors.LightGold,
+                            child: Icon(Icons.add,color: AppColors.White),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCompany(Add: true,isCompany: false,),));
+                            }
+                        ),
+                        body: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                  alignment: Alignment.center,
+                                  child: Text("حسابات افراد", style: TextStyle(fontSize: 25))),
+                              SizedBox(height: 10,),
+                              FutureBuilder(
+                                future: FirebaseFirestore.instance.collection(Mohasabi.collectionUser)
+                                    .doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID))
+                                    .collection(Mohasabi.collectionIndividual).get(),
+                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.docs.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        IndividualModel model = IndividualModel.fromJson(snapshot.data.docs[index].data());
+                                        return  Container(
+                                          margin: EdgeInsets.only(left: 10,right: 10),
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Card(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  onTap: (){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  AddCompany(Add: false,individualModel: model,isCompany: false,)));
+                                                  },
+                                                  leading: Icon(Icons.account_balance_sharp, size: 50,color: AppColors.LightGold),
+                                                  title: Text(model.name,textDirection: TextDirection.rtl),
+                                                  subtitle: Text(model.officename,textDirection: TextDirection.rtl),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -242,7 +291,7 @@ class _MyProfileState extends State<MyProfile>{
     );  }
 
   Future updateUserInfoToFirestore() async {
-    FirebaseFirestore.instance.collection("users").doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).update({
+    FirebaseFirestore.instance.collection(Mohasabi.collectionUser).doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).update({
       "email": _emailTextEditingController.text.toString(),
       "name": _nameTextEditingController.text.toString(),
       "phone":_mobileTextEditingController.text.trim(),
