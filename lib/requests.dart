@@ -21,7 +21,7 @@ class _RequestsState extends State<Requests>{
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))),
         );
         //in middle
       } else if (index == 1) {
@@ -35,7 +35,7 @@ class _RequestsState extends State<Requests>{
   @override
   Widget build(BuildContext context) {
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,

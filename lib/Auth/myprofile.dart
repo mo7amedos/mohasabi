@@ -34,7 +34,7 @@ class _MyProfileState extends State<MyProfile>{
         ) as Widget;
         //in middle
       } else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))),);
       }//in middle
       else if (index == 2) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
@@ -63,7 +63,7 @@ class _MyProfileState extends State<MyProfile>{
     var size = MediaQuery.of(context).size;
     String _name,_mobile,_email;
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,

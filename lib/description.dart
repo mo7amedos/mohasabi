@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Model/services.dart';
-import 'package:mohasabi/mycase.dart';
 import 'package:mohasabi/requests.dart';
 
 
@@ -38,7 +37,7 @@ class _DescriptionState extends State<Description>{
     type = widget.model.type;
     print(_selectedValue);
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,

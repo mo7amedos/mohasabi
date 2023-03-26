@@ -8,9 +8,7 @@ import 'package:mohasabi/Auth/login.dart';
 import 'package:mohasabi/config/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'config/config.dart';
 import 'home.dart';
-import 'info.dart';
 
 Future<void> main() async {
 
@@ -69,8 +67,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   displaySplash() {
     Timer(Duration(seconds: 2), () async {
+      var variable = await  FirebaseFirestore.instance.collection(Mohasabi.collectionUser)
+          .doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).get();
+      Mohasabi.sharedPreferences.setString(Mohasabi.userRole, variable[Mohasabi.userRole]);
       if (await Mohasabi.auth.currentUser != null) {
-          Route route = MaterialPageRoute(builder: (_) =>  Home());
+          Route route = MaterialPageRoute(builder: (_) =>  Home(role:Mohasabi.sharedPreferences.getString(Mohasabi.userRole),));
           Navigator.pushReplacement(context, route);
       } else {
         Route route = MaterialPageRoute(builder: (_) => Login());

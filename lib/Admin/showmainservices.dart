@@ -1,22 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diamond_bottom_bar/diamond_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mohasabi/Admin/showsubservices.dart';
-import 'package:mohasabi/Auth/login.dart';
 import 'package:mohasabi/Model/services.dart';
-import 'package:mohasabi/chat/chat.dart';
 import 'package:mohasabi/config/config.dart';
-import 'package:mohasabi/mycase.dart';
-import 'package:mohasabi/Auth/myprofile.dart';
-import 'package:mohasabi/plans.dart';
-import 'package:mohasabi/requests.dart';
-import 'package:mohasabi/subservices.dart';
-import 'package:mohasabi/training.dart';
-
 
 import '../config/NavBar.dart';
+import '../home.dart';
 import 'addsubservices.dart';
 
 class ShowMainServices extends StatefulWidget {
@@ -25,43 +16,14 @@ class ShowMainServices extends StatefulWidget {
 }
 
 class _ShowMainServicesState extends State<ShowMainServices> {
-  int _selectedIndex = 1;
-  String _selectedValueCompany,_selectedValueIndividual ;
-
-  Widget _selectedWidget;
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> showExitPopup() async {
-      return await showDialog( //show confirm dialogue
-        //the return value will be from "Yes" or "No" options
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('الخروج',textDirection: TextDirection.rtl),
-          content: Text('هل تريد الخروج من التطبيق',textDirection: TextDirection.rtl),
-          actions:[
-            ElevatedButton(
-              onPressed: () => SystemNavigator.pop(),
-
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.DarkGold),
-              //return false when click on "NO"
-              child:Text('نعم'),
-            ),
-
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              style: ElevatedButton.styleFrom(backgroundColor: AppColors.LightGold),
-
-              //return true when click on "Yes"
-              child:Text('لا'),
-            ),
-
-          ],
-        ),
-      )??false; //if showDialouge had returned null, then return false
+    Future<bool> _back() async {
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
-      onWillPop: showExitPopup,
+      onWillPop: _back,
       child: SafeArea(
           child: Column(
               children: [
@@ -137,14 +99,14 @@ class _ShowMainServicesState extends State<ShowMainServices> {
                                             builder: (context) =>  AddSubServices(model: model,)),),
                                         style: ElevatedButton.styleFrom(backgroundColor: AppColors.DarkGold),
                                               //return false when click on "NO"
-                                              child:Text('اضافة خدمة فرعية'),
+                                              child:Text('اضافة خدمة'),
                                             ),
                                             ElevatedButton(
                                               onPressed: () => Navigator.push(context,
                                                 MaterialPageRoute(builder: (context) =>  ShowSubServices(ID: model.idservice,model: model,)),),
                                               style: ElevatedButton.styleFrom(backgroundColor: AppColors.LightGold),
                                               //return true when click on "Yes"
-                                              child:Text('عرض الخدمات الفرعية'),
+                                              child:Text('اضافة معلومات عن الخدمة'),
                                             ),
 
                                           ],

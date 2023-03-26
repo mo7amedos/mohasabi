@@ -184,7 +184,7 @@ class _SignupState extends State<Signup>{
         });
         if (firebaseUser != null) {
           saveUserInfoToFirestore(firebaseUser).then((value) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
           });
         }
       }catch (e) {

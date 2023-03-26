@@ -26,7 +26,7 @@ class _SupportRequestsState extends State<SupportRequests>{
   Widget build(BuildContext context) {
     String _title;
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,

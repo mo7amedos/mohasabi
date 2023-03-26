@@ -7,7 +7,6 @@ import 'package:easy_stepper/easy_stepper.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mohasabi/Admin/showmainservices.dart';
 import 'package:mohasabi/DialogBox/errorDialog.dart';
@@ -45,7 +44,7 @@ class _DataEntryState extends State<DataEntry>{
   Widget build(BuildContext context) {
     double _screenWidth = MediaQuery.of(context).size.width;
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,
@@ -197,7 +196,7 @@ class _DataEntryState extends State<DataEntry>{
                                 ),
                                 child: Text("اضافة",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)),
                               ),),
-                              SizedBox(height: 50,),
+                            /*  SizedBox(height: 50,),
                               InkWell(onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>  ShowMainServices()),
                 );
@@ -212,7 +211,7 @@ class _DataEntryState extends State<DataEntry>{
                                     // color: Colors.blueGrey.shade200,
                                   ),
                                   child: Text("عرض الخدمات الرئيسية",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: AppColors.White)),
-                                ),)
+                                ),)*/
                             ],
                           ),
                         )

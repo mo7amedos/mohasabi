@@ -7,7 +7,6 @@ import 'package:easy_stepper/easy_stepper.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mohasabi/Admin/showmainservices.dart';
 import 'package:mohasabi/DialogBox/errorDialog.dart';
@@ -16,7 +15,6 @@ import '../DialogBox/loadingDialog.dart';
 import '../Model/services.dart';
 import '../config/NavBar.dart';
 import '../config/config.dart';
-import '../home.dart';
 
 final TextEditingController _nameTextEditingController = TextEditingController();
 final TextEditingController _descriptionTextEditingController = TextEditingController();

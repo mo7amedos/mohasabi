@@ -28,7 +28,7 @@ class _DraftState extends State<Draft>{
         ) as Widget;
         //in middle
       } else if (index == 1) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))),);
       }//in middle
       else if (index == 2) {
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  Requests()),);
@@ -40,7 +40,7 @@ class _DraftState extends State<Draft>{
   @override
   Widget build(BuildContext context) {
     Future<bool> _back() async {
-      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      return await Navigator.push(context, MaterialPageRoute(builder: (context) => Home(role: Mohasabi.sharedPreferences.getString(Mohasabi.userRole))));
     }
     return WillPopScope(
       onWillPop: _back,
