@@ -3,8 +3,12 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mohasabi/Admin/adminrequests.dart';
 import 'package:mohasabi/Model/services.dart';
 import 'package:mohasabi/requests.dart';
+import 'package:mohasabi/widgets/custom_button.dart';
+import 'package:mohasabi/widgets/custom_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 
@@ -30,18 +34,19 @@ class _AdminChatState extends State<AdminChat>{
   @override
   Widget build(BuildContext context) {
     activeStep = widget.requestmodel.status;
+    print(activeStep);
     if(activeStep==0){
       textCase = "برجاء تقديم الاوراق المطلوبة";
     }else if(activeStep==1){
       textCase = "تم تقديم الملفات و جاري المراجعة";
     }
     else if(activeStep==2){
-      textCase = "برجاء دفع جزء من الحساب و انتظار التاكيد";
+      textCase = "في انتظار تاكيد عمليه تحوبل المبلغ";
     }
     else if(activeStep==3){
-      textCase = "جاري العمل علي طلبكم و سوف يتمم التواصل معك فور انتهاء المطلوب";
+      textCase = "جاري العمل علي طلبكم ";
     }else if(activeStep==4){
-      textCase = "برجاء دفع الباقي من الحساب لاستلام الملفات المطلوبة";
+      textCase = "في انتظار تاكيد عمليه تحوبل المبلغ";
     } else if(activeStep==5){
       textCase = "تمت العملية بنجاح";
   }
@@ -117,11 +122,50 @@ class _AdminChatState extends State<AdminChat>{
                         ),),
                         SizedBox(
                           height: 30,
+                          width: MediaQuery.of(context).size.width,
+                          child: InkWell(
+                            onTap: _launchURL,
+                            child: const Text(
+                              'Click here to open a website',
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                          ),
+                        SizedBox(
+                          height: 30,
                         width: MediaQuery.of(context).size.width,
                         child: Align(
                           alignment: Alignment.topCenter,
                             child: Text(textCase,style: TextStyle(fontSize: 20,),textDirection: TextDirection.rtl, ))
                           ,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomButton(onPress: (){
+                              FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).doc(widget.requestmodel.requestid).update({
+                                "status": widget.requestmodel.status+1
+                              });
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminRequests()));
+                            },text: "الخطوه التاليه",),
+                            CustomButton(onPress: (){
+                              if(widget.requestmodel.status == 0){
+                                FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).doc(widget.requestmodel.requestid).update({
+                                  "status": widget.requestmodel.status
+                                });
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminRequests()));
+                              }else{
+                                FirebaseFirestore.instance.collection(Mohasabi.collectionRequests).doc(widget.requestmodel.requestid).update({
+                                  "status": widget.requestmodel.status-1
+                                });
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminRequests()));
+                              }
+                            },text: "الخطوه السابقة",),
+                          ],
+                        ),
                         Expanded(
                             child: StreamBuilder(
                               stream: FirebaseFirestore.instance.collection(Mohasabi.collectionMessages).
@@ -230,5 +274,13 @@ class _AdminChatState extends State<AdminChat>{
       _textController.clear();
       timestamp=DateTime.now().millisecondsSinceEpoch.toString();
     });
+  }
+  _launchURL() async {
+    Uri _url = Uri.parse("https://google.com");
+    if (await launchUrl(_url)) {
+      await launchUrl(_url);
+    } else {
+      throw 'Could not launch $_url';
+    }
   }
 }
