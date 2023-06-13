@@ -69,10 +69,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   displaySplash() {
     Timer(Duration(seconds: 2), () async {
-      var variable = await  FirebaseFirestore.instance.collection(Mohasabi.collectionUser)
-          .doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).get();
-      Mohasabi.sharedPreferences.setString(Mohasabi.userRole, variable[Mohasabi.userRole]);
       if (await Mohasabi.auth.currentUser != null) {
+        var variable = await  FirebaseFirestore.instance.collection(Mohasabi.collectionUser)
+            .doc(Mohasabi.sharedPreferences.getString(Mohasabi.userUID)).get();
+        Mohasabi.sharedPreferences.setString(Mohasabi.userRole, variable[Mohasabi.userRole]);
           Route route = MaterialPageRoute(builder: (_) =>  Home(role:Mohasabi.sharedPreferences.getString(Mohasabi.userRole),));
           Navigator.pushReplacement(context, route);
       } else {
