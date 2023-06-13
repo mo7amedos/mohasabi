@@ -130,10 +130,12 @@ class _MyProfileState extends State<MyProfile>{
                                   child: CircleAvatar(
                                     backgroundColor: AppColors.DarkGold,
                                     radius: 150,
-                                    child: CircleAvatar(
+                                    child:
+                                    CircleAvatar(
                                       radius: 70,
-                                      backgroundImage: NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl)
-                                      ),
+                                      backgroundImage: Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl)==null ?
+                                      AssetImage('assets/images/icon.png')
+                                          :NetworkImage(Mohasabi.sharedPreferences.getString(Mohasabi.userAvatarUrl),),
                                     ),
                                   ),
                                 ),

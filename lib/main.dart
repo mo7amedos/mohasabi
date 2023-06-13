@@ -62,9 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
 
-    //displaySplash();
-    Route route = MaterialPageRoute(builder: (_) => Login());
-    Navigator.pushReplacement(context, route);
+    displaySplash();
   }
 
   displaySplash() {
